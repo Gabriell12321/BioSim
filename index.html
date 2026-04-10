@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSim - Simulações de Biologia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1 class="logo-area">BioSim</h1>
+            <nav id="main-nav">
+                <button class="nav-btn active" data-tab="lotka-volterra">Predador-Presa</button>
+                <button class="nav-btn" data-tab="epidemiological">Epidemiologia</button>
+                <button class="nav-btn" data-tab="metabolic">Metabolismo</button>
+                <button class="nav-btn" data-tab="evolution">Evolução</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Lotka-Volterra -->
+        <section id="lotka-volterra" class="tab-content active">
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="lv-teoria">Teoria</button>
+                <button class="sub-tab" data-subtab="lv-sim">Simulação</button>
+            </div>
+
+            <div class="sub-content active" id="lv-teoria">
+                <h2>Modelo Predador-Presa de Lotka-Volterra</h2>
+                <p>Proposto independentemente por <strong>Alfred J. Lotka</strong> (1925) e <strong>Vito Volterra</strong> (1926), este modelo é um dos pilares da ecologia matemática. Descreve a dinâmica cíclica entre duas espécies em relação de predação.</p>
+
+                <div class="bio-concept">
+                    <h4>Em resumo</h4>
+                    <p>Quando presas são abundantes, predadores têm mais alimento e se reproduzem. O aumento de predadores reduz as presas. Com menos presas, predadores diminuem. Com menos predadores, presas se recuperam — e o ciclo recomeça.</p>
+                </div>
+
+                <h3>Equações Diferenciais</h3>
+                <div class="equation-box">
+                    <div class="eq-line"><span class="eq-formula">dx/dt = αx − βxy</span><span class="eq-desc">Crescimento das presas</span></div>
+                    <div class="eq-line"><span class="eq-formula">dy/dt = δxy − γy</span><span class="eq-desc">Crescimento dos predadores</span></div>
+                </div>
+                <table class="param-table">
+                    <tr><td class="param-sym">x, y</td><td>Populações de presas e predadores</td></tr>
+                    <tr><td class="param-sym">α</td><td>Taxa intrínseca de crescimento das presas (natalidade − mortalidade natural)</td></tr>
+                    <tr><td class="param-sym">β</td><td>Taxa de predação — eficiência do predador em capturar presas</td></tr>
+                    <tr><td class="param-sym">δ</td><td>Eficiência de conversão — fração da presa que vira energia reprodutiva</td></tr>
+                    <tr><td class="param-sym">γ</td><td>Taxa de mortalidade dos predadores na ausência de presas</td></tr>
+                </table>
+
+                <h3>Exemplos clássicos</h3>
+                <p><strong>Lobos e Alces — Ilha Royale, Michigan:</strong> Estudo de 60+ anos documenta oscilações cíclicas entre as duas populações.</p>
+                <p><strong>Linces e Lebres — Canadá:</strong> Registros da Hudson's Bay Company (1845–1935) revelam ciclos de ~10 anos nas peles comercializadas.</p>
+                <p><strong>Leões e Gnus — Serengeti:</strong> Migração anual dos gnus regulada pela predação nos pontos de travessia.</p>
+
+                <h3>Importância ecológica</h3>
+                <ul>
+                    <li><strong>Regulação top-down:</strong> Predadores controlam herbívoros, afetando toda a cadeia (cascata trófica). Ex: lobos em Yellowstone.</li>
+                    <li><strong>Coexistência:</strong> Oscilações permitem que predador e presa coexistam — nenhum elimina o outro.</li>
+                    <li><strong>Controle biológico:</strong> Usado pra calcular introdução de predadores naturais no manejo de pragas.</li>
+                    <li><strong>Conservação:</strong> Modelos similares simulam viabilidade de populações ameaçadas.</li>
+                </ul>
+
+                <h3>Limitações do modelo</h3>
+                <ul class="limitation-list">
+                    <li>Assume ambiente homogêneo — sem refúgios espaciais</li>
+                    <li>Presas crescem exponencialmente sem predadores</li>
+                    <li>Ignora defesas antipredatórias (camuflagem, mimetismo)</li>
+                    <li>Não inclui competição intraespecífica</li>
+                    <li>Assume resposta funcional linear (tipo I de Holling)</li>
+                </ul>
+                <div class="bio-concept tip">
+                    <h4>Extensões</h4>
+                    <p>O modelo de Rosenzweig-MacArthur adiciona capacidade de suporte e resposta funcional tipo II/III — mais realista pra conservação.</p>
+                </div>
+
+                <h3>Lendo os gráficos</h3>
+                <p><strong>Gráfico temporal:</strong> Mostra as oscilações cíclicas. O pico de predadores sempre <em>segue</em> o pico de presas com atraso.</p>
+                <p><strong>Diagrama de fase:</strong> Relaciona as populações diretamente. Órbitas fechadas = oscilações estáveis. O ponto marca o início.</p>
+            </div>
+
+            <div class="sub-content" id="lv-sim">
+                <div class="sim-layout">
+                    <div class="controls-panel">
+                        <h3>Parâmetros</h3>
+                        <div class="control-group">
+                            <label>α — Crescimento presas: <span id="lv-alpha-val">1.0</span></label>
+                            <input type="range" id="lv-alpha" min="0.1" max="3.0" step="0.1" value="1.0">
+                            <div class="param-hint">Valores altos = reprodução rápida</div>
+                        </div>
+                        <div class="control-group">
+                            <label>β — Predação: <span id="lv-beta-val">0.1</span></label>
+                            <input type="range" id="lv-beta" min="0.01" max="0.5" step="0.01" value="0.1">
+                        </div>
+                        <div class="control-group">
+                            <label>δ — Conversão: <span id="lv-delta-val">0.075</span></label>
+                            <input type="range" id="lv-delta" min="0.01" max="0.3" step="0.005" value="0.075">
+                            <div class="param-hint">Presa → energia → novos predadores</div>
+                        </div>
+                        <div class="control-group">
+                            <label>γ — Mortalidade pred.: <span id="lv-gamma-val">1.5</span></label>
+                            <input type="range" id="lv-gamma" min="0.1" max="3.0" step="0.1" value="1.5">
+                        </div>
+                        <hr>
+                        <h3>Condições iniciais</h3>
+                        <div class="control-group"><label>Presas (x₀): <span id="lv-x0-val">40</span></label><input type="range" id="lv-x0" min="1" max="200" step="1" value="40"></div>
+                        <div class="control-group"><label>Predadores (y₀): <span id="lv-y0-val">9</span></label><input type="range" id="lv-y0" min="1" max="100" step="1" value="9"></div>
+                        <div class="control-group"><label>Tempo: <span id="lv-time-val">50</span></label><input type="range" id="lv-time" min="10" max="200" step="5" value="50"></div>
+                        <hr>
+                        <h3>Cenários</h3>
+                        <div class="preset-group">
+                            <button class="btn-preset" data-preset="lv-classic">Lobos × Alces</button>
+                            <button class="btn-preset" data-preset="lv-explosive">Presas explosivas</button>
+                            <button class="btn-preset" data-preset="lv-efficient">Predador eficiente</button>
+                            <button class="btn-preset" data-preset="lv-fragile">Equilíbrio frágil</button>
+                        </div>
+                        <button class="btn-run" id="lv-run">Rodar</button>
+                        <button class="btn-reset" id="lv-reset">Resetar</button>
+                        <div class="stats-box" id="lv-stats"></div>
+                    </div>
+                    <div class="charts-panel">
+                        <div class="chart-container"><canvas id="lv-chart-time"></canvas></div>
+                        <div class="chart-container"><canvas id="lv-chart-phase"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Epidemiologia -->
+        <section id="epidemiological" class="tab-content">
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="epi-teoria">Teoria</button>
+                <button class="sub-tab" data-subtab="epi-sim">Simulação</button>
+            </div>
+
+            <div class="sub-content active" id="epi-teoria">
+                <h2>Modelos Compartimentais SIR e SEIR</h2>
+                <p>Desenvolvidos a partir do trabalho de <strong>Kermack e McKendrick</strong> (1927), dividem a população em compartimentos baseados no estado imunológico. Fundamentais pra prever epidemias e orientar saúde pública.</p>
+
+                <div class="bio-concept">
+                    <h4>A ideia</h4>
+                    <p>Uma doença se espalha quando suscetíveis contatam infectados. A velocidade depende da taxa de contato e probabilidade de transmissão. Quando infectados se recuperam e ficam imunes, reduzem o "combustível" da epidemia.</p>
+                </div>
+
+                <h3>Os modelos</h3>
+                <div class="model-comparison">
+                    <div class="model-box">
+                        <h4>SIR</h4>
+                        <div class="flow-diagram"><span class="flow-box">S</span><span class="flow-arrow">→ βSI/N →</span><span class="flow-box">I</span><span class="flow-arrow">→ γI →</span><span class="flow-box">R</span></div>
+                        <div class="equation-box compact">
+                            <div class="eq-line"><span class="eq-formula">dS/dt = −βSI/N</span></div>
+                            <div class="eq-line"><span class="eq-formula">dI/dt = βSI/N − γI</span></div>
+                            <div class="eq-line"><span class="eq-formula">dR/dt = γI</span></div>
+                        </div>
+                        <p class="model-desc">Imunidade permanente: sarampo, caxumba, rubéola</p>
+                    </div>
+                    <div class="model-box">
+                        <h4>SEIR</h4>
+                        <div class="flow-diagram"><span class="flow-box">S</span><span class="flow-arrow">→</span><span class="flow-box">E</span><span class="flow-arrow">→ σE →</span><span class="flow-box">I</span><span class="flow-arrow">→</span><span class="flow-box">R</span></div>
+                        <div class="equation-box compact">
+                            <div class="eq-line"><span class="eq-formula">dE/dt = βSI/N − σE</span></div>
+                            <div class="eq-line"><span class="eq-formula">dI/dt = σE − γI</span></div>
+                        </div>
+                        <p class="model-desc">Com incubação: COVID-19, Ebola, influenza</p>
+                    </div>
+                </div>
+
+                <table class="param-table">
+                    <tr><td class="param-sym">S</td><td>Suscetíveis — nunca contataram o patógeno</td></tr>
+                    <tr><td class="param-sym">E</td><td>Expostos — infectados mas não transmitem (incubação)</td></tr>
+                    <tr><td class="param-sym">I</td><td>Infectados — transmitindo ativamente</td></tr>
+                    <tr><td class="param-sym">R</td><td>Recuperados/removidos</td></tr>
+                    <tr><td class="param-sym">β</td><td>Taxa de transmissão = contato × prob. infecção</td></tr>
+                    <tr><td class="param-sym">γ</td><td>Taxa de recuperação = 1 / duração da infecção</td></tr>
+                    <tr><td class="param-sym">σ</td><td>Taxa de incubação = 1 / período de incubação</td></tr>
+                    <tr><td class="param-sym">R₀</td><td>Nº básico de reprodução = β/γ</td></tr>
+                </table>
+
+                <h3>R₀ de doenças reais</h3>
+                <table class="param-table disease-r0">
+                    <thead><tr><th>Doença</th><th>Patógeno</th><th>R₀</th><th>Incubação</th><th>Imun. rebanho</th></tr></thead>
+                    <tbody>
+                        <tr><td>Sarampo</td><td>Paramyxovírus</td><td class="r0-high">12–18</td><td>10–14 d</td><td>92–95%</td></tr>
+                        <tr><td>COVID-19 (Ômicron)</td><td>SARS-CoV-2</td><td class="r0-high">8–15</td><td>2–4 d</td><td>85–93%</td></tr>
+                        <tr><td>Varicela</td><td>VZV</td><td class="r0-high">10–12</td><td>14–16 d</td><td>90–92%</td></tr>
+                        <tr><td>Gripe sazonal</td><td>Influenza A/B</td><td>1.5–2</td><td>1–4 d</td><td>33–50%</td></tr>
+                        <tr><td>Ebola</td><td>Ebolavirus</td><td>1.5–2.5</td><td>2–21 d</td><td>33–60%</td></tr>
+                        <tr><td>Dengue</td><td>DENV</td><td>2–6</td><td>4–10 d</td><td>50–83%</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Imunidade de rebanho</h3>
+                <div class="bio-concept">
+                    <div class="equation-box inline"><span class="eq-formula">p<sub>c</sub> = 1 − 1/R₀</span></div>
+                    <p>Sarampo (R₀≈15): <strong>93%</strong> precisam ser imunes. Gripe (R₀≈1.5): <strong>33%</strong>. É por isso que surtos de sarampo aparecem com baixa cobertura vacinal.</p>
+                </div>
+
+                <h3>Lendo os gráficos</h3>
+                <p><strong>Curva epidêmica:</strong> "Achatar a curva" (↓β) reduz o pico mas prolonga a epidemia. O objetivo é não sobrecarregar o sistema de saúde.</p>
+                <p><strong>Sensibilidade do R₀:</strong> R₀ &gt; 1 → epidemia cresce. R₀ &lt; 1 → se extingue.</p>
+            </div>
+
+            <div class="sub-content" id="epi-sim">
+                <div class="sim-layout">
+                    <div class="controls-panel">
+                        <h3>Modelo</h3>
+                        <div class="toggle-group">
+                            <button class="toggle-btn active" id="sir-mode-btn" data-mode="sir">SIR</button>
+                            <button class="toggle-btn" id="seir-mode-btn" data-mode="seir">SEIR</button>
+                        </div>
+                        <h3>Parâmetros</h3>
+                        <div class="control-group">
+                            <label>β — Transmissão: <span id="epi-beta-val">0.3</span></label>
+                            <input type="range" id="epi-beta" min="0.01" max="1.0" step="0.01" value="0.3">
+                            <div class="param-hint">prob. infecção × taxa de contato</div>
+                        </div>
+                        <div class="control-group">
+                            <label>γ — Recuperação: <span id="epi-gamma-val">0.1</span></label>
+                            <input type="range" id="epi-gamma" min="0.01" max="0.5" step="0.01" value="0.1">
+                            <div class="param-hint">1/γ = duração da doença</div>
+                        </div>
+                        <div class="control-group seir-only" style="display:none">
+                            <label>σ — Incubação: <span id="epi-sigma-val">0.2</span></label>
+                            <input type="range" id="epi-sigma" min="0.01" max="1.0" step="0.01" value="0.2">
+                        </div>
+                        <hr>
+                        <h3>População</h3>
+                        <div class="control-group"><label>N: <span id="epi-n-val">10000</span></label><input type="range" id="epi-n" min="1000" max="1000000" step="1000" value="10000"></div>
+                        <div class="control-group"><label>I₀: <span id="epi-i0-val">10</span></label><input type="range" id="epi-i0" min="1" max="500" step="1" value="10"></div>
+                        <div class="control-group"><label>Dias: <span id="epi-days-val">200</span></label><input type="range" id="epi-days" min="30" max="500" step="10" value="200"></div>
+                        <hr>
+                        <h3>Cenários</h3>
+                        <div class="preset-group">
+                            <button class="btn-preset" data-preset="epi-gripe">Gripe</button>
+                            <button class="btn-preset" data-preset="epi-covid">COVID-19</button>
+                            <button class="btn-preset" data-preset="epi-sarampo">Sarampo</button>
+                            <button class="btn-preset" data-preset="epi-ebola">Ebola</button>
+                        </div>
+                        <button class="btn-run" id="epi-run">Rodar</button>
+                        <button class="btn-reset" id="epi-reset">Resetar</button>
+                        <div class="stats-box" id="epi-stats"></div>
+                    </div>
+                    <div class="charts-panel">
+                        <div class="chart-container"><canvas id="epi-chart-time"></canvas></div>
+                        <div class="chart-container"><canvas id="epi-chart-r0"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metabolismo -->
+        <section id="metabolic" class="tab-content">
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="meta-teoria">Teoria</button>
+                <button class="sub-tab" data-subtab="meta-sim">Simulação</button>
+            </div>
+
+            <div class="sub-content active" id="meta-teoria">
+                <h2>Redes Metabólicas e Cinética Enzimática</h2>
+                <p>O metabolismo é a rede de reações químicas que sustém a vida. Cada reação é catalisada por <strong>enzimas</strong> — proteínas que aceleram reações em até 10<sup>17</sup> vezes. A cinética de <strong>Michaelis-Menten</strong> (1913) modela como a velocidade depende da concentração de substrato.</p>
+
+                <div class="bio-concept">
+                    <h4>Como funciona</h4>
+                    <p>Enzima (E) liga ao substrato (S) formando o complexo ES, que é convertido em produto (P). Em baixas [S]: velocidade proporcional a [S]. Em altas [S]: enzima satura → velocidade = V<sub>max</sub>. O K<sub>m</sub> é a [S] onde v = V<sub>max</sub>/2.</p>
+                </div>
+
+                <h3>Michaelis-Menten</h3>
+                <div class="equation-box">
+                    <div class="eq-line"><span class="eq-formula">E + S ⇌ ES → E + P</span><span class="eq-desc">Mecanismo</span></div>
+                    <div class="eq-line"><span class="eq-formula">v = V<sub>max</sub> · [S] / (K<sub>m</sub> + [S])</span><span class="eq-desc">Velocidade</span></div>
+                </div>
+
+                <h3>Vias metabólicas</h3>
+                <p><strong>Glicólise simplificada</strong><br>
+                <span style="font-family:monospace">Glicose → G6P → F6P → FBP → Piruvato</span><br>
+                Via central no citoplasma. Produz 2 ATP e 2 NADH por glicose.</p>
+
+                <p><strong>Via linear (3 etapas)</strong><br>
+                <span style="font-family:monospace">A → B → C → D</span><br>
+                Modelo genérico de biossíntese. Fluxo limitado pela enzima mais lenta.</p>
+
+                <p><strong>Via ramificada</strong><br>
+                <span style="font-family:monospace">A → B ⇒ C₁ → D₁ | B ⇒ C₂ → D₂</span><br>
+                Comum em biossíntese de aminoácidos.</p>
+
+                <p><strong>Com feedback negativo</strong><br>
+                <span style="font-family:monospace">A → B → C → D ⟲ (D inibe E₁)</span><br>
+                Inibição alostérica — principal mecanismo de homeostase.</p>
+
+                <h3>Conceitos-chave</h3>
+                <ul>
+                    <li><strong>Regulação alostérica</strong> — Moléculas ligam fora do sítio ativo, alterando atividade.</li>
+                    <li><strong>Enzima limitante</strong> — Etapa mais lenta = gargalo regulatório (PFK-1 na glicólise).</li>
+                    <li><strong>Saturação</strong> — Quando [S] >> K<sub>m</sub>, enzima opera em V<sub>max</sub>.</li>
+                </ul>
+
+                <h3>Lendo os gráficos</h3>
+                <p><strong>Concentração:</strong> Substrato consumido → intermediários surgem e somem → produto acumula.</p>
+                <p><strong>Fluxo enzimático:</strong> Velocidade de cada reação. Estado estacionário: velocidades convergem.</p>
+            </div>
+
+            <div class="sub-content" id="meta-sim">
+                <div class="sim-layout">
+                    <div class="controls-panel">
+                        <h3>Via metabólica</h3>
+                        <select id="meta-pathway">
+                            <option value="glycolysis">Glicólise simplificada</option>
+                            <option value="linear">Via linear (3 etapas)</option>
+                            <option value="branched">Via ramificada</option>
+                            <option value="feedback">Com feedback</option>
+                        </select>
+                        <h3>Cinética</h3>
+                        <div class="control-group">
+                            <label>[S₀]: <span id="meta-s0-val">10.0</span> mM</label>
+                            <input type="range" id="meta-s0" min="0.5" max="50" step="0.5" value="10.0">
+                        </div>
+                        <div class="control-group">
+                            <label>V<sub>max</sub>: <span id="meta-vmax-val">5.0</span></label>
+                            <input type="range" id="meta-vmax" min="0.5" max="20" step="0.5" value="5.0">
+                        </div>
+                        <div class="control-group">
+                            <label>K<sub>m</sub>: <span id="meta-km-val">2.0</span> mM</label>
+                            <input type="range" id="meta-km" min="0.1" max="10" step="0.1" value="2.0">
+                        </div>
+                        <div class="control-group" id="meta-feedback-group" style="display:none">
+                            <label>K<sub>i</sub>: <span id="meta-ki-val">1.0</span></label>
+                            <input type="range" id="meta-ki" min="0.1" max="10" step="0.1" value="1.0">
+                            <div class="param-hint">K<sub>i</sub> baixo = inibição forte</div>
+                        </div>
+                        <div class="control-group"><label>Tempo: <span id="meta-time-val">30</span></label><input type="range" id="meta-time" min="5" max="100" step="5" value="30"></div>
+                        <button class="btn-run" id="meta-run">Rodar</button>
+                        <button class="btn-reset" id="meta-reset">Resetar</button>
+                    </div>
+                    <div class="charts-panel">
+                        <div class="chart-container"><canvas id="meta-chart-conc"></canvas></div>
+                        <div class="chart-container"><canvas id="meta-chart-flux"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evolução -->
+        <section id="evolution" class="tab-content">
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="evo-teoria">Teoria</button>
+                <button class="sub-tab" data-subtab="evo-sim">Simulação</button>
+            </div>
+
+            <div class="sub-content active" id="evo-teoria">
+                <h2>Evolução e Genética de Populações</h2>
+                <p>A genética de populações une Mendel a Darwin. Estuda como frequências alélicas mudam sob seleção natural, mutação, deriva genética, migração e acasalamento não-aleatório.</p>
+
+                <div class="bio-concept">
+                    <h4>Ideia central</h4>
+                    <p>Evolução = mudança nas frequências alélicas nas gerações. O equilíbrio de Hardy-Weinberg é a situação de "não-evolução". Qualquer desvio indica alguma força evolutiva atuando.</p>
+                </div>
+
+                <h3>Hardy-Weinberg</h3>
+                <div class="equation-box">
+                    <div class="eq-line"><span class="eq-formula">p² + 2pq + q² = 1</span><span class="eq-desc">Frequências genotípicas</span></div>
+                    <div class="eq-line"><span class="eq-formula">p + q = 1</span><span class="eq-desc">Frequências alélicas</span></div>
+                </div>
+                <table class="param-table">
+                    <tr><td class="param-sym">p</td><td>Frequência do alelo A (dominante)</td></tr>
+                    <tr><td class="param-sym">q</td><td>Frequência do alelo a (recessivo)</td></tr>
+                    <tr><td class="param-sym">p²</td><td>AA (homozigoto dominante)</td></tr>
+                    <tr><td class="param-sym">2pq</td><td>Aa (heterozigoto)</td></tr>
+                    <tr><td class="param-sym">q²</td><td>aa (homozigoto recessivo)</td></tr>
+                </table>
+                <div class="bio-concept tip">
+                    <h4>Condições pra HW</h4>
+                    <p>Pop. infinita, acasalamento aleatório, sem mutação, sem migração, sem seleção. Na natureza nunca satisfeitas → evolução é inevitável.</p>
+                </div>
+
+                <h3>Forças evolutivas</h3>
+                <p><strong>Seleção direcional</strong> — Fenótipo extremo favorecido → alelo vai até fixação. Ex: resistência a antibióticos.</p>
+                <p><strong>Vantagem do heterozigoto</strong> — Heterozigoto (Aa) com fitness superior → polimorfismo balanceado. Ex: anemia falciforme e malária.</p>
+                <p><strong>Deriva genética</strong> — Flutuações aleatórias em pops. pequenas. Inclui efeito fundador e gargalo.</p>
+                <p><strong>Mutação + seleção</strong> — Mutação introduz deletérios; seleção remove. Equilíbrio em baixa freq.</p>
+                <p><strong>Multi-populações</strong> — Pops. isoladas divergem por deriva → especiação alopátrica.</p>
+
+                <h3>Exemplos</h3>
+                <p><strong>Biston betularia:</strong> Mariposas escuras dominaram durante a Rev. Industrial. Com despoluição, claras voltaram.</p>
+                <p><strong>Tentilhões de Darwin:</strong> Seleção no bico + deriva entre ilhas = radiação adaptativa.</p>
+                <p><strong>Guepardo:</strong> Gargalo genético há ~10.000 anos. Diversidade tão baixa que aceita transplante de qualquer indivíduo.</p>
+                <p><strong>Amish:</strong> ~200 fundadores → alta prevalência de Ellis-van Creveld por efeito fundador.</p>
+
+                <h3>Lendo os gráficos</h3>
+                <p><strong>Frequência alélica (p):</strong> p=1 → fixado. p=0 → perdido. Seleção faz curva suave, deriva faz curva errática.</p>
+                <p><strong>Genótipos:</strong> AA, Aa, aa ao longo do tempo. Vantagem heterozigoto mantém Aa alta.</p>
+            </div>
+
+            <div class="sub-content" id="evo-sim">
+                <div class="sim-layout">
+                    <div class="controls-panel">
+                        <h3>Cenário</h3>
+                        <select id="evo-scenario">
+                            <option value="selection">Seleção direcional</option>
+                            <option value="heterozygote">Vantagem do heterozigoto</option>
+                            <option value="drift">Deriva genética</option>
+                            <option value="mutation-selection">Mutação + seleção</option>
+                            <option value="multi-loci">Multi-populações</option>
+                        </select>
+                        <h3>Parâmetros</h3>
+                        <div class="control-group">
+                            <label>p₀: <span id="evo-p0-val">0.5</span></label>
+                            <input type="range" id="evo-p0" min="0.01" max="0.99" step="0.01" value="0.5">
+                        </div>
+                        <div class="control-group">
+                            <label>w₁₁ (AA): <span id="evo-w11-val">1.0</span></label>
+                            <input type="range" id="evo-w11" min="0.0" max="1.5" step="0.01" value="1.0">
+                        </div>
+                        <div class="control-group">
+                            <label>w₁₂ (Aa): <span id="evo-w12-val">1.0</span></label>
+                            <input type="range" id="evo-w12" min="0.0" max="1.5" step="0.01" value="1.0">
+                        </div>
+                        <div class="control-group">
+                            <label>w₂₂ (aa): <span id="evo-w22-val">0.8</span></label>
+                            <input type="range" id="evo-w22" min="0.0" max="1.5" step="0.01" value="0.8">
+                        </div>
+                        <div class="control-group">
+                            <label>N: <span id="evo-popsize-val">1000</span></label>
+                            <input type="range" id="evo-popsize" min="10" max="10000" step="10" value="1000">
+                            <div class="param-hint">Pop. pequena → mais deriva</div>
+                        </div>
+                        <div class="control-group" id="evo-mutation-group" style="display:none">
+                            <label>μ: <span id="evo-mu-val">0.001</span></label>
+                            <input type="range" id="evo-mu" min="0.0001" max="0.05" step="0.0001" value="0.001">
+                        </div>
+                        <div class="control-group"><label>Gerações: <span id="evo-gen-val">200</span></label><input type="range" id="evo-gen" min="10" max="1000" step="10" value="200"></div>
+                        <div class="control-group" id="evo-runs-group" style="display:none"><label>Nº pops: <span id="evo-runs-val">5</span></label><input type="range" id="evo-runs" min="2" max="20" step="1" value="5"></div>
+                        <button class="btn-run" id="evo-run">Rodar</button>
+                        <button class="btn-reset" id="evo-reset">Resetar</button>
+                        <div class="stats-box" id="evo-stats"></div>
+                    </div>
+                    <div class="charts-panel">
+                        <div class="chart-container"><canvas id="evo-chart-freq"></canvas></div>
+                        <div class="chart-container"><canvas id="evo-chart-genotype"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>BioSim v1.1</p>
+    </footer>
+
+    <script src="js/lotka-volterra.js"></script>
+    <script src="js/epidemiological.js"></script>
+    <script src="js/metabolic.js"></script>
+    <script src="js/evolution.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
