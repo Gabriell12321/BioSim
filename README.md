@@ -14,6 +14,7 @@ Resolução do sistema acoplado de EDOs de Lotka-Volterra por método de Runge-K
 dx/dt = αx − βxy
 dy/dt = δxy − γy
 ```
+<img width="1170" height="809" alt="image" src="https://github.com/user-attachments/assets/0092b00e-f350-45c3-9b8f-c1bd95044abf" />
 
 Produz gráfico de séries temporais x(t), y(t) e diagrama de fase no espaço (x, y) com identificação de órbitas periódicas e pontos de equilíbrio não-triviais (x* = γ/δ, y* = α/β). Downsampling por fator 50 para otimização de renderização.
 
@@ -29,6 +30,7 @@ dS/dt = −βSI/N
 dI/dt = βSI/N − γI     (SIR)
 dE/dt = βSI/N − σE     (SEIR)
 ```
+<img width="1292" height="847" alt="image" src="https://github.com/user-attachments/assets/43b6f7c8-746f-463c-b354-44912e95089f" />
 
 Inclui análise de sensibilidade paramétrica do número básico de reprodução R₀ = β/γ, cálculo de limiar de imunidade de rebanho (p_c = 1 − 1/R₀), identificação de pico epidêmico e taxa de ataque final.
 
@@ -49,6 +51,7 @@ v = Vmax · [S] / (Km · (1 + [I]/Ki) + [S])         (inibição competitiva)
 ```
 
 Gera gráficos de concentração [metabolito](t) e fluxo enzimático v(t) com downsampling adaptativo.
+<img width="1171" height="860" alt="image" src="https://github.com/user-attachments/assets/d2dfcdcd-5da9-4da2-82f5-12f475ac3f33" />
 
 ### Módulo 4 — Genética de Populações e Evolução
 
@@ -61,6 +64,7 @@ Simulação de dinâmica evolutiva em populações diploides com locus bialélic
 5. **Multi-populações** — divergência entre N populações isoladas com tamanhos populacionais variáveis (simulação de especiação alopátrica)
 
 Projeção de frequências genotípicas via Hardy-Weinberg (p², 2pq, q²) para cada geração.
+<img width="1255" height="915" alt="image" src="https://github.com/user-attachments/assets/66147d5e-8315-4d38-80cb-9474ec1190d7" />
 
 ## Arquitetura
 
