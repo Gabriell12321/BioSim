@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,8 @@
         <div class="header-inner">
             <h1 class="logo-area">BioSim</h1>
             <nav id="main-nav">
-                <button class="nav-btn active" data-tab="lotka-volterra">Predador-Presa</button>
+                <button class="nav-btn active" data-tab="genetica">Genética</button>
+                <button class="nav-btn" data-tab="lotka-volterra">Predador-Presa</button>
                 <button class="nav-btn" data-tab="epidemiological">Epidemiologia</button>
                 <button class="nav-btn" data-tab="metabolic">Metabolismo</button>
                 <button class="nav-btn" data-tab="evolution">Evolução</button>
@@ -23,8 +24,836 @@
 
     <main>
 
+        <!-- GENÉTICA MENDELIANA -->
+        <section id="genetica" class="tab-content active">
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="gen-teoria">Teoria</button>
+                <button class="sub-tab" data-subtab="gen-sim">Simulação</button>
+            </div>
+
+            <div class="sub-content active" id="gen-teoria">
+                <h2>Genética Mendeliana — Guia Completo</h2>
+                <p><strong>Disciplina:</strong> Genética Básica (1º–2º semestre) &nbsp;|&nbsp; <strong>Nível:</strong> Fundamental</p>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">1. BASES MOLECULARES — O que é um Gene?</h2>
+
+                <h3>1.1 DNA, Cromossomos e Genes</h3>
+                <p>O <strong>DNA</strong> (ácido desoxirribonucleico) é o polímero de nucleotídeos que carrega a informação genética. Cada nucleotídeo tem: (1) grupo fosfato, (2) desoxirribose, (3) base nitrogenada (A, T, C, G). As duas fitas são antiparalelas (5'→3' / 3'→5') unidas por pontes de hidrogênio (A=T com 2, G≡C com 3).</p>
+                <p>Um <strong>gene</strong> é um segmento de DNA que codifica um RNA funcional (mRNA, tRNA, rRNA) ou uma proteína. Nos eucariotos, genes têm <strong>éxons</strong> (codificantes) intercalados com <strong>íntrons</strong> (removidos pelo splicing). O gene está em um <strong>locus</strong> (posição específica) em um cromossomo.</p>
+                <p>Um <strong>cromossomo</strong> é DNA + histonas (proteínas) compactados. Humanos: <strong>46 cromossomos</strong> = 23 pares (22 autossomos + 1 par sexual XX/XY). Cada par = 2 <strong>homólogos</strong> (um do pai, um da mãe).</p>
+
+                <div class="bio-concept">
+                    <h4>Terminologia essencial</h4>
+                    <p><strong>Locus:</strong> posição do gene no cromossomo. <strong>Alelo:</strong> versão alternativa de um gene no mesmo locus. <strong>Homozigoto:</strong> dois alelos iguais (AA ou aa). <strong>Heterozigoto:</strong> dois alelos diferentes (Aa). <strong>Genótipo:</strong> combinação de alelos (AA, Aa, aa). <strong>Fenótipo:</strong> característica observável resultante do genótipo + ambiente. <strong>Dominante:</strong> alelo que se manifesta no heterozigoto. <strong>Recessivo:</strong> só se manifesta em homozigose.</p>
+                </div>
+
+                <h3>1.2 Diploidia e Haploidia</h3>
+                <p><strong>Diploide (2n):</strong> célula com dois conjuntos completos de cromossomos (células somáticas). <strong>Haploide (n):</strong> célula com um conjunto (gametas — óvulo e espermatozoide). Na fecundação: n + n = 2n (zigoto).</p>
+                <table class="param-table">
+                    <thead><tr><th>Organismo</th><th>2n</th><th>n</th></tr></thead>
+                    <tbody>
+                        <tr><td>Humano</td><td>46</td><td>23</td></tr>
+                        <tr><td>Ervilha (<em>Pisum</em>)</td><td>14</td><td>7</td></tr>
+                        <tr><td><em>Drosophila</em></td><td>8</td><td>4</td></tr>
+                        <tr><td>Milho</td><td>20</td><td>10</td></tr>
+                        <tr><td>Cão</td><td>78</td><td>39</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>1.3 Meiose — Base Citológica da Genética</h3>
+                <p>A <strong>meiose</strong> é a divisão celular que produz gametas haploides a partir de células diploides. Duas divisões consecutivas:</p>
+
+                <h4>Meiose I — Divisão Reducional</h4>
+                <table class="param-table">
+                    <thead><tr><th>Fase</th><th>O que acontece</th><th>Importância genética</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Prófase I</strong></td><td>Cromossomos homólogos pareiam (sinapse) formando <strong>bivalentes</strong> (tétrades). Ocorre <strong>crossing-over</strong> (troca de segmentos entre cromátides não-irmãs) nos <strong>quiasmas</strong>.</td><td>Recombinação gênica — gera variabilidade. Quiasmas são os pontos visíveis da troca.</td></tr>
+                        <tr><td><strong>Metáfase I</strong></td><td>Bivalentes se alinham na placa metafásica. A orientação de cada par é <strong>aleatória</strong> (segregação independente).</td><td>Base da 2ª Lei de Mendel. Com n pares: 2ⁿ combinações possíveis de gametas.</td></tr>
+                        <tr><td><strong>Anáfase I</strong></td><td>Homólogos se separam (disjunção). Cada polo recebe UM cromossomo de cada par.</td><td>Base da 1ª Lei de Mendel (segregação dos fatores). Redução 2n → n.</td></tr>
+                        <tr><td><strong>Telófase I</strong></td><td>2 células haploides (n), cada cromossomo ainda com 2 cromátides.</td><td>—</td></tr>
+                    </tbody>
+                </table>
+
+                <h4>Meiose II — Divisão Equacional</h4>
+                <table class="param-table">
+                    <thead><tr><th>Fase</th><th>O que acontece</th><th>Resultado</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Prófase II</strong></td><td>Compactação. Sem pareamento (já são haploides).</td><td>—</td></tr>
+                        <tr><td><strong>Metáfase II</strong></td><td>Cromossomos individuais se alinham.</td><td>—</td></tr>
+                        <tr><td><strong>Anáfase II</strong></td><td><strong>Cromátides-irmãs</strong> se separam.</td><td>Separação final das cópias.</td></tr>
+                        <tr><td><strong>Telófase II</strong></td><td>4 células haploides (n), cada uma geneticamente única.</td><td><strong>4 gametas</strong> por meiose.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="bio-concept">
+                    <h4>Variabilidade genética na meiose</h4>
+                    <p><strong>Fonte 1:</strong> Segregação independente na metáfase I → 2ⁿ combinações (humanos: 2²³ = 8.388.608 gametas diferentes). <strong>Fonte 2:</strong> Crossing-over na prófase I → recombina alelos dentro do mesmo cromossomo. <strong>Fonte 3:</strong> Fecundação aleatória → 2²³ × 2²³ ≈ 70 trilhões de combinações possíveis.</p>
+                </div>
+
+                <h3>1.4 Mitose vs Meiose — Comparação</h3>
+                <table class="param-table">
+                    <thead><tr><th>Característica</th><th>Mitose</th><th>Meiose</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tipo de célula</td><td>Somáticas</td><td>Germinativas (gônadas)</td></tr>
+                        <tr><td>Nº de divisões</td><td>1</td><td>2</td></tr>
+                        <tr><td>Células-filhas</td><td>2 (2n) idênticas</td><td>4 (n) diferentes</td></tr>
+                        <tr><td>Pareamento de homólogos</td><td>Não</td><td>Sim (prófase I)</td></tr>
+                        <tr><td>Crossing-over</td><td>Raramente (sem significado genético)</td><td>Sim (prófase I)</td></tr>
+                        <tr><td>Separação na Ana I</td><td>Cromátides-irmãs</td><td>Cromossomos homólogos</td></tr>
+                        <tr><td>Resultado genético</td><td>Clones</td><td>Recombinantes</td></tr>
+                        <tr><td>Função</td><td>Crescimento, reparo</td><td>Produção de gametas</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">2. MENDEL E SEUS EXPERIMENTOS</h2>
+
+                <h3>2.1 Contexto Histórico</h3>
+                <p>Gregor Johann Mendel (1822–1884), monge agostiniano e naturalista, realizou entre 1856 e 1863 cruzamentos controlados com ervilhas (<em>Pisum sativum</em>) no mosteiro de Brno (atual República Tcheca). Publicou os resultados em 1866 no artigo <em>"Versuche über Pflanzenhybriden"</em> (Experimentos sobre Hibridação de Plantas), que foi ignorado por 34 anos até ser redescoberto em 1900 por Hugo de Vries, Carl Correns e Erich von Tschermak.</p>
+                <p><strong>Inovação de Mendel:</strong> Ele usou <em>abordagem quantitativa</em> — contou os indivíduos de cada classe fenotípica e identificou proporções matemáticas. Antes dele, a herança era tratada de forma qualitativa ("herança por mistura").</p>
+
+                <div class="bio-concept">
+                    <h4>Por que ervilhas?</h4>
+                    <p>Mendel escolheu <em>Pisum sativum</em> por razões práticas: ciclo de vida curto (uma geração por estação), fácil cultivo, autofecundação natural (permite linhagens puras), possibilidade de polinização cruzada manual, e caracteres com variantes discretas e facilmente distinguíveis (sem gradação contínua).</p>
+                </div>
+
+                <h3>2.2 Método de Mendel</h3>
+                <ol>
+                    <li><strong>Obter linhagens puras</strong> — autofecundar por várias gerações até que todos os descendentes sejam idênticos (homozigotos).</li>
+                    <li><strong>Cruzamento parental (P)</strong> — cruzar duas linhagens puras contrastantes (ex: alta × anã).</li>
+                    <li><strong>Observar F1</strong> — a 1ª geração filial. Todos iguais = um caráter "domina".</li>
+                    <li><strong>Autofecundar F1</strong> — para obter F2. O caráter "escondido" reaparece em ~25%.</li>
+                    <li><strong>Contar e calcular proporções</strong> — a parte genial de Mendel.</li>
+                </ol>
+
+                <h3>2.3 Os 7 caracteres estudados por Mendel</h3>
+                <table class="param-table">
+                    <thead><tr><th>Caráter</th><th>Dominante</th><th>Recessivo</th><th>Gene (moderno)</th><th>Cromossomo</th></tr></thead>
+                    <tbody>
+                        <tr><td>Forma da semente</td><td>Lisa (R)</td><td>Rugosa (r)</td><td><em>SBE1</em> (amido)</td><td>5</td></tr>
+                        <tr><td>Cor da semente</td><td>Amarela (Y)</td><td>Verde (y)</td><td><em>SGR</em> (stay-green)</td><td>1</td></tr>
+                        <tr><td>Cor da flor</td><td>Púrpura (P)</td><td>Branca (p)</td><td><em>A</em> (antocianina)</td><td>1</td></tr>
+                        <tr><td>Forma da vagem</td><td>Inflada (I)</td><td>Constrita (i)</td><td><em>V</em></td><td>4</td></tr>
+                        <tr><td>Cor da vagem</td><td>Verde (G)</td><td>Amarela (g)</td><td><em>GP</em></td><td>5</td></tr>
+                        <tr><td>Posição da flor</td><td>Axial (A)</td><td>Terminal (a)</td><td><em>FA</em></td><td>4</td></tr>
+                        <tr><td>Altura da planta</td><td>Alta (T)</td><td>Anã (t)</td><td><em>LE</em> (giberelina)</td><td>3</td></tr>
+                    </tbody>
+                </table>
+                <div class="bio-concept tip">
+                    <h4>Sorte de Mendel?</h4>
+                    <p>A ervilha tem apenas 7 pares de cromossomos — e Mendel estudou 7 caracteres. Alguns pares de genes que ele estudou estão no mesmo cromossomo (ex: cor da flor e cor da semente no crom. 1), mas ficam suficientemente distantes para se comportarem como independentes (>50 cM). Isso explica por que ele sempre observou segregação independente.</p>
+                </div>
+
+                <h3>2.4 Dados reais de Mendel (F2)</h3>
+                <table class="param-table">
+                    <thead><tr><th>Caráter</th><th>Dominante</th><th>Recessivo</th><th>Total</th><th>Razão</th></tr></thead>
+                    <tbody>
+                        <tr><td>Forma da semente</td><td>5.474</td><td>1.850</td><td>7.324</td><td>2,96:1</td></tr>
+                        <tr><td>Cor da semente</td><td>6.022</td><td>2.001</td><td>8.023</td><td>3,01:1</td></tr>
+                        <tr><td>Cor da flor</td><td>705</td><td>224</td><td>929</td><td>3,15:1</td></tr>
+                        <tr><td>Forma da vagem</td><td>882</td><td>299</td><td>1.181</td><td>2,95:1</td></tr>
+                        <tr><td>Cor da vagem</td><td>428</td><td>152</td><td>580</td><td>2,82:1</td></tr>
+                        <tr><td>Posição da flor</td><td>651</td><td>207</td><td>858</td><td>3,14:1</td></tr>
+                        <tr><td>Altura da planta</td><td>787</td><td>277</td><td>1.064</td><td>2,84:1</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">3. 1ª LEI DE MENDEL — Segregação dos Fatores</h2>
+
+                <h3>3.1 Enunciado</h3>
+                <p><em>"Cada caráter é determinado por um par de fatores (alelos) que se separam na formação dos gametas, de modo que cada gameta recebe apenas um fator de cada par."</em></p>
+                <p>Em termos modernos: durante a <strong>meiose I</strong> (anáfase I), os cromossomos homólogos se separam, levando consigo alelos diferentes para gametas distintos. Isso ocorre porque os alelos de um gene ocupam o mesmo <strong>locus</strong> (posição) em cromossomos homólogos.</p>
+
+                <div class="bio-concept">
+                    <h4>Base citológica</h4>
+                    <p>Na <strong>meiose I</strong>, cromossomos homólogos pareiam (sinapse) e depois se separam (segregação). Cada célula-filha recebe apenas um homólogo de cada par. Na <strong>meiose II</strong>, as cromátides-irmãs se separam. Resultado: 4 gametas haploides (n) a partir de 1 célula diploide (2n).</p>
+                </div>
+
+                <h3>3.2 Cruzamento Mono-híbrido</h3>
+                <p>Envolve um único gene com dois alelos. Exemplo clássico: cor da semente.</p>
+                <p><strong>P (parental):</strong> ♀ AA (amarela pura) × ♂ aa (verde pura)</p>
+                <p><strong>F1:</strong> 100% Aa (amarelas) — heterozigotos. O fenótipo dominante se manifesta porque o alelo A produz proteína funcional suficiente (conceito de <strong>haplosuficiência</strong>).</p>
+                <p><strong>F2 (F1 × F1):</strong> Aa × Aa → Quadro de Punnett:</p>
+
+                <table class="param-table" style="max-width:220px">
+                    <thead><tr><th></th><th>A</th><th>a</th></tr></thead>
+                    <tbody>
+                        <tr><td class="param-sym">A</td><td>AA</td><td>Aa</td></tr>
+                        <tr><td class="param-sym">a</td><td>Aa</td><td>aa</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Proporção genotípica:</strong> 1 AA : 2 Aa : 1 aa (25% : 50% : 25%)</p>
+                <p><strong>Proporção fenotípica:</strong> 3 dominante : 1 recessivo (75% : 25%)</p>
+
+                <div class="bio-concept">
+                    <h4>Outros cruzamentos mono-híbridos importantes</h4>
+                    <p><strong>AA × Aa</strong> → 1 AA : 1 Aa → 100% dominante (2 genótipos, 1 fenótipo)<br>
+                    <strong>AA × aa</strong> → 100% Aa → 100% dominante<br>
+                    <strong>Aa × aa</strong> → 1 Aa : 1 aa → 50% dom : 50% rec (= cruzamento-teste)<br>
+                    <strong>aa × aa</strong> → 100% aa → 100% recessivo</p>
+                </div>
+
+                <h3>3.3 Cruzamento-teste (Testcross)</h3>
+                <p>Usado pra descobrir se um indivíduo com fenótipo dominante é <strong>homozigoto (AA)</strong> ou <strong>heterozigoto (Aa)</strong>. Cruza-se com um homozigoto recessivo (aa):</p>
+                <ul>
+                    <li>Se <strong>AA × aa</strong> → 100% Aa (todos dominantes) → era homozigoto</li>
+                    <li>Se <strong>Aa × aa</strong> → 50% Aa + 50% aa (1:1) → era heterozigoto</li>
+                </ul>
+                <p>Qualquer recessivo na prole confirma que o indivíduo testado é heterozigoto.</p>
+                <div class="bio-concept tip">
+                    <h4>Retro-cruzamento (Backcross)</h4>
+                    <p>Cruzamento de um descendente com um dos parentais. O testcross é um tipo especial de retro-cruzamento (com o parental homozigoto recessivo). Usado na agricultura para introduzir um gene desejado em uma linhagem elite.</p>
+                </div>
+
+                <h3>3.4 Conceito de Dominância — Por que domina?</h3>
+                <p>A dominância NÃO significa que o alelo dominante é "mais forte" ou "melhor". Na maioria dos casos:</p>
+                <ul>
+                    <li>O alelo dominante codifica uma <strong>proteína funcional</strong></li>
+                    <li>O alelo recessivo codifica uma proteína <strong>não-funcional</strong> (mutação com perda de função)</li>
+                    <li>Uma cópia funcional (no heterozigoto) é <strong>suficiente</strong> para o fenótipo normal → <strong>haplosuficiência</strong></li>
+                    <li>Exceção: genes <strong>haploinsuficientes</strong> — uma cópia não basta → heterozigoto tem fenótipo intermediário</li>
+                </ul>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">4. 2ª LEI DE MENDEL — Segregação Independente</h2>
+
+                <h3>4.1 Enunciado</h3>
+                <p><em>"Os fatores para dois ou mais caracteres se distribuem independentemente uns dos outros durante a formação dos gametas, combinando-se ao acaso na fecundação."</em></p>
+                <p><strong>Condição:</strong> só vale quando os genes estão em <strong>cromossomos diferentes</strong> (não-ligados). Genes no mesmo cromossomo tendem a ser herdados juntos (ligação gênica), com exceções por crossing-over.</p>
+                <p><strong>Base citológica:</strong> Na metáfase I, a orientação de cada par de homólogos na placa é aleatória. Com n pares de cromossomos → 2ⁿ combinações possíveis de gametas.</p>
+
+                <h3>4.2 Cruzamento Di-híbrido</h3>
+                <p>Envolve dois genes independentes simultaneamente.</p>
+                <p><strong>P:</strong> AABB × aabb</p>
+                <p><strong>F1:</strong> 100% AaBb (duplo heterozigoto)</p>
+                <p><strong>F2 (AaBb × AaBb):</strong> cada progenitor produz 4 tipos de gametas: AB, Ab, aB, ab (em proporções iguais de 25% cada)</p>
+                <p>Quadro de Punnett 4×4 → 16 combinações possíveis:</p>
+
+                <table class="param-table" style="font-size:12px">
+                    <thead><tr><th></th><th>AB</th><th>Ab</th><th>aB</th><th>ab</th></tr></thead>
+                    <tbody>
+                        <tr><td class="param-sym">AB</td><td>AABB</td><td>AABb</td><td>AaBB</td><td>AaBb</td></tr>
+                        <tr><td class="param-sym">Ab</td><td>AABb</td><td>AAbb</td><td>AaBb</td><td>Aabb</td></tr>
+                        <tr><td class="param-sym">aB</td><td>AaBB</td><td>AaBb</td><td>aaBB</td><td>aaBb</td></tr>
+                        <tr><td class="param-sym">ab</td><td>AaBb</td><td>Aabb</td><td>aaBb</td><td>aabb</td></tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Proporção fenotípica:</strong> 9 A_B_ : 3 A_bb : 3 aaB_ : 1 aabb</p>
+                <p><strong>9:3:3:1</strong> — a proporção "assinatura" do di-hibridismo com dominância completa.</p>
+
+                <div class="bio-concept">
+                    <h4>Genótipos no di-híbrido F2 (detalhado)</h4>
+                    <p>
+                    9 A_B_ = 1 AABB + 2 AABb + 2 AaBB + 4 AaBb<br>
+                    3 A_bb = 1 AAbb + 2 Aabb<br>
+                    3 aaB_ = 1 aaBB + 2 aaBb<br>
+                    1 aabb = 1 aabb<br>
+                    <strong>Total: 9 genótipos diferentes em 16 combinações.</strong>
+                    </p>
+                </div>
+
+                <h3>4.3 Fórmulas para Multi-Híbridos</h3>
+                <table class="param-table">
+                    <thead><tr><th>Nº de genes (n)</th><th>Gametas diferentes</th><th>Genótipos F2</th><th>Fenótipos F2</th><th>Quadro de Punnett</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>2</td><td>3</td><td>2</td><td>2×2 = 4</td></tr>
+                        <tr><td>2</td><td>4</td><td>9</td><td>4</td><td>4×4 = 16</td></tr>
+                        <tr><td>3</td><td>8</td><td>27</td><td>8</td><td>8×8 = 64</td></tr>
+                        <tr><td>n</td><td>2ⁿ</td><td>3ⁿ</td><td>2ⁿ</td><td>4ⁿ</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">5. EXTENSÕES DO MENDELISMO</h2>
+
+                <h3>5.1 Dominância Completa, Incompleta e Codominância</h3>
+                <table class="param-table">
+                    <thead><tr><th>Tipo</th><th>Heterozigoto</th><th>Exemplo</th><th>Proporção F2</th><th>Mecanismo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Completa</strong></td><td>Idêntico ao homozigoto dominante</td><td>Ervilha: Aa = AA (amarela)</td><td>3:1</td><td>Haplosuficiência — 1 cópia funcional basta</td></tr>
+                        <tr><td><strong>Incompleta</strong></td><td>Fenótipo intermediário</td><td>Maravilha: VV (vermelha) × BB (branca) → VB (rosa)</td><td>1:2:1</td><td>Haploinsuficiência — 1 cópia produz metade do pigmento</td></tr>
+                        <tr><td><strong>Codominância</strong></td><td>Ambos alelos se expressam</td><td>Sangue: I<sup>A</sup>I<sup>B</sup> = tipo AB (ambos antígenos)</td><td>1:2:1</td><td>Ambos alelos codificam produtos detectáveis</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="bio-concept">
+                    <h4>Dominância incompleta vs Codominância — qual a diferença?</h4>
+                    <p><strong>Dominância incompleta:</strong> o heterozigoto tem fenótipo <em>intermediário</em> (mistura/blend). Ex: flor rosa = "meio vermelha".<br>
+                    <strong>Codominância:</strong> o heterozigoto expressa <em>ambos</em> os fenótipos simultaneamente (sem mistura). Ex: tipo AB = tem antígeno A E antígeno B nas hemácias (não é um "antígeno médio"). A diferença é de resolução: no nível molecular, muitos casos de "dominância completa" são na verdade codominância.</p>
+                </div>
+
+                <h3>5.2 Alelos Múltiplos — Sistema ABO</h3>
+                <p>Quando um gene tem <strong>mais de dois alelos</strong> na população (mas cada indivíduo ainda carrega apenas 2). O sistema ABO é o exemplo clássico:</p>
+                <table class="param-table">
+                    <thead><tr><th>Genótipo</th><th>Fenótipo</th><th>Antígeno na hemácia</th><th>Anticorpo no plasma</th><th>Pode doar para</th><th>Pode receber de</th></tr></thead>
+                    <tbody>
+                        <tr><td>I<sup>A</sup>I<sup>A</sup> ou I<sup>A</sup>i</td><td>Tipo A</td><td>A (N-acetilgalactosamina)</td><td>Anti-B</td><td>A, AB</td><td>A, O</td></tr>
+                        <tr><td>I<sup>B</sup>I<sup>B</sup> ou I<sup>B</sup>i</td><td>Tipo B</td><td>B (galactose)</td><td>Anti-A</td><td>B, AB</td><td>B, O</td></tr>
+                        <tr><td>I<sup>A</sup>I<sup>B</sup></td><td>Tipo AB</td><td>A e B</td><td>Nenhum</td><td>AB</td><td>A, B, AB, O</td></tr>
+                        <tr><td>ii</td><td>Tipo O</td><td>Nenhum (antígeno H)</td><td>Anti-A e Anti-B</td><td>A, B, AB, O</td><td>O</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Relações de dominância:</strong> I<sup>A</sup> e I<sup>B</sup> são codominantes entre si, e ambos são dominantes sobre i.</p>
+                <p>O gene <em>ABO</em> codifica uma glicosiltransferase que adiciona açúcares ao antígeno H (substância precursora) na superfície das hemácias. I<sup>A</sup> adiciona N-acetilgalactosamina, I<sup>B</sup> adiciona galactose, e i produz enzima não-funcional.</p>
+
+                <div class="bio-concept">
+                    <h4>Cruzamentos ABO — Todos os casos</h4>
+                    <p>
+                    <strong>I<sup>A</sup>i × I<sup>B</sup>i:</strong> → I<sup>A</sup>I<sup>B</sup> (AB), I<sup>A</sup>i (A), I<sup>B</sup>i (B), ii (O) — <strong>todos os 4 tipos!</strong><br>
+                    <strong>I<sup>A</sup>I<sup>B</sup> × ii:</strong> → I<sup>A</sup>i (A), I<sup>B</sup>i (B) — 50% A, 50% B, nenhum AB nem O<br>
+                    <strong>I<sup>A</sup>i × I<sup>A</sup>i:</strong> → I<sup>A</sup>I<sup>A</sup>, I<sup>A</sup>i, I<sup>A</sup>i, ii → 3 A : 1 O<br>
+                    <strong>I<sup>A</sup>I<sup>B</sup> × I<sup>A</sup>I<sup>B</sup>:</strong> → I<sup>A</sup>I<sup>A</sup> (A), I<sup>A</sup>I<sup>B</sup> (AB), I<sup>B</sup>I<sup>A</sup> (AB), I<sup>B</sup>I<sup>B</sup> (B) → 1A : 2AB : 1B
+                    </p>
+                </div>
+
+                <h3>5.3 Falso O — Sistema Bombay (hh)</h3>
+                <p>O gene <em>H</em> (cromossomo 19) codifica a fucosiltransferase que produz o <strong>antígeno H</strong> — precursor de A e B. Indivíduos homozigotos <strong>hh</strong> não produzem antígeno H → não podem ter A nem B, mesmo tendo I<sup>A</sup> ou I<sup>B</sup> → <strong>fenótipo O falso</strong>. Prevalência: ~1/10.000 na Índia, muito raro em outras populações.</p>
+
+                <h3>5.4 Fator Rh</h3>
+                <p>Determinado pelo gene <em>RHD</em> no cromossomo 1. Rh+ (D presente) é dominante sobre Rh- (deleção do gene). Indivíduos Rh- são homozigotos dd.</p>
+                <p><strong>Eritroblastose fetal (DHRN):</strong> Mãe Rh- (dd) × Pai Rh+ (Dd ou DD). Se o feto é Rh+ e hemácias fetais entram na circulação materna (parto, trauma), a mãe produz anticorpos anti-D (IgG). Na 2ª gestação com feto Rh+, os anticorpos cruzam a placenta e atacam as hemácias fetais → anemia hemolítica do recém-nascido. Prevenção: injeção de imunoglobulina anti-D (Rhogam) na mãe até 72h pós-parto.</p>
+
+                <div class="bio-concept">
+                    <h4>Sistema ABO + Rh combinados</h4>
+                    <p>Na prática médica, a tipagem sanguínea é ABO + Rh: A+, A-, B+, B-, AB+, AB-, O+, O-. Frequências no Brasil: O+ ~36%, A+ ~34%, B+ ~8%, AB+ ~3%, O- ~9%, A- ~8%, B- ~2%, AB- ~0.5%. Doador universal: O- (hemácias). Receptor universal: AB+ (plasma sem anti-A/B).</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">6. INTERAÇÃO GÊNICA E EPISTASIA</h2>
+
+                <h3>6.1 Epistasia — Quando um gene interfere em outro</h3>
+                <p>Quando um gene interfere na expressão de outro gene (em locus diferente). Modifica a proporção 9:3:3:1 clássica:</p>
+                <table class="param-table">
+                    <thead><tr><th>Tipo de epistasia</th><th>Proporção F2</th><th>Exemplo</th><th>Mecanismo</th></tr></thead>
+                    <tbody>
+                        <tr><td>Recessiva (aa esconde B)</td><td><strong>9:3:4</strong></td><td>Cor do Labrador (ee esconde B/b → amarelo)</td><td>Gene recessivo bloqueia deposição de pigmento</td></tr>
+                        <tr><td>Dominante (A_ esconde B)</td><td><strong>12:3:1</strong></td><td>Cor da plumagem em galinhas (I_ inibe cor)</td><td>Gene dominante inibe expressão do outro</td></tr>
+                        <tr><td>Duplicata dominante</td><td><strong>15:1</strong></td><td>Formato da bolsa-do-pastor</td><td>Qualquer dominante produz o fenótipo</td></tr>
+                        <tr><td>Duplicata recessiva (complementar)</td><td><strong>9:7</strong></td><td>Cor da flor em ervilha-de-cheiro</td><td>Precisa A_ E B_ juntos para o fenótipo</td></tr>
+                        <tr><td>Dominante e recessiva</td><td><strong>13:3</strong></td><td>Cor em certas aves</td><td>Dominante de um + recessivo do outro</td></tr>
+                        <tr><td>Genes duplicados com efeito cumulativo</td><td><strong>9:6:1</strong></td><td>Forma do fruto em abóbora</td><td>Cada dominante altera o fenótipo</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="bio-concept">
+                    <h4>Exemplo detalhado: Labrador Retriever</h4>
+                    <p><strong>Gene E/e:</strong> E_ permite deposição de pigmento; ee bloqueia (cão amarelo independente de B).<br>
+                    <strong>Gene B/b:</strong> B_ = pigmento preto (eumelanina); bb = pigmento chocolate (feomelanina oxidada).<br>
+                    <strong>Então:</strong> B_E_ = preto, bbE_ = chocolate, _ _ee = amarelo.<br>
+                    <strong>Cruzamento BbEe × BbEe:</strong> 9 pretos : 3 chocolate : 4 amarelos (9:3:4).<br>
+                    <strong>Por que 4 amarelos?</strong> São os 3 B_ee + 1 bbee, todos sem deposição de pigmento.</p>
+                </div>
+
+                <div class="bio-concept">
+                    <h4>Como identificar epistasia na prova?</h4>
+                    <p>Se um cruzamento di-híbrido dá uma proporção que <strong>soma 16</strong> mas <strong>não é 9:3:3:1</strong>, é epistasia. Basta ver quais classes foram "fundidas":<br>
+                    9:3:4 → fundiu 3+1 = recessiva<br>
+                    12:3:1 → fundiu 9+3 = dominante<br>
+                    15:1 → fundiu 9+3+3 = duplicata dominante<br>
+                    9:7 → fundiu 3+3+1 = duplicata recessiva</p>
+                </div>
+
+                <h3>6.2 Pleiotropia</h3>
+                <p>Um único gene afeta múltiplos caracteres (fenótipos). Exemplos detalhados:</p>
+                <table class="param-table">
+                    <thead><tr><th>Doença</th><th>Gene</th><th>Mutação</th><th>Efeitos pleiotrópicos</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Anemia falciforme</strong></td><td>HBB (β-globina)</td><td>Glu→Val posição 6</td><td>Hemácias em foice, anemia, dor, infartos, esplenomegalia, resistência à malária em heterozigotos (HbAS)</td></tr>
+                        <tr><td><strong>Fibrose cística</strong></td><td>CFTR (canal Cl⁻)</td><td>ΔF508 (deleção Phe508)</td><td>Muco espesso em pulmões, pâncreas insuficiente, infertilidade masculina, suor salgado</td></tr>
+                        <tr><td><strong>Fenilcetonúria (PKU)</strong></td><td>PAH (Phe-hidroxilase)</td><td>Múltiplas (>500 descritas)</td><td>Retardo mental, pele clara, odor de mofo, eczema</td></tr>
+                        <tr><td><strong>Marfan</strong></td><td>FBN1 (fibrilina-1)</td><td>Múltiplas</td><td>Estatura alta, dedos longos (aracnodactilia), luxação do cristalino, aneurisma de aorta</td></tr>
+                        <tr><td><strong>Doença de Huntington</strong></td><td>HTT (huntingtina)</td><td>Expansão CAG >36 repeats</td><td>Coreia, demência, distúrbios psiquiátricos (dominante, início tardio)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>6.3 Genes Letais</h3>
+                <p>Alelos que causam morte do organismo quando em homozigose. Modifica a proporção esperada:</p>
+                <p><strong>Exemplo — Cor em camundongos:</strong> Alelo A<sup>Y</sup> (yellow) é dominante sobre A (agouti) para cor, mas letal em homozigose (A<sup>Y</sup>A<sup>Y</sup> morre no útero). Cruzamento A<sup>Y</sup>A × A<sup>Y</sup>A → 1 A<sup>Y</sup>A<sup>Y</sup> (letal) : 2 A<sup>Y</sup>A (amarelo) : 1 AA (agouti) → proporção observada entre vivos: <strong>2 amarelos : 1 agouti</strong>.</p>
+                <p><strong>Outros exemplos de letais:</strong></p>
+                <ul>
+                    <li><strong>Braquidactilia</strong> em humanos — Bb = dedos curtos, BB = letal, bb = normal. → 2 braquidáctilos : 1 normal entre vivos.</li>
+                    <li><strong>Manx</strong> em gatos — Mm = sem cauda, MM = letal, mm = cauda normal.</li>
+                    <li><strong>Condrodistrofia</strong> em gado — Heterozigoto é "proporcional", homozigoto dominante é letal (bezerro bulldog).</li>
+                </ul>
+
+                <h3>6.4 Penetrância e Expressividade</h3>
+                <table class="param-table">
+                    <thead><tr><th>Conceito</th><th>Definição</th><th>Exemplo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Penetrância</strong></td><td>% de indivíduos com o genótipo que manifestam o fenótipo esperado</td><td>Retinoblastoma (RB1): penetrância ~90% → 10% dos portadores não desenvolvem tumor</td></tr>
+                        <tr><td><strong>Expressividade</strong></td><td>Grau/intensidade com que o fenótipo se manifesta</td><td>Neurofibromatose tipo 1: de manchas café-com-leite leves a neurofibromas desfigurantes</td></tr>
+                        <tr><td><strong>Fenocópia</strong></td><td>Fenótipo idêntico ao genético, causado por fator ambiental</td><td>Focomelia por talidomida imita defeitos genéticos</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>6.5 Herança Poligênica (Quantitativa)</h3>
+                <p>Quando <strong>vários genes</strong> (cada um com efeito pequeno) + ambiente determinam um fenótipo de variação contínua:</p>
+                <ul>
+                    <li><strong>Cor da pele humana:</strong> ~6 genes principais (SLC24A5, SLC45A2, TYR, KITLG, MC1R, OCA2). Cada alelo "escuro" adiciona pigmento → distribuição contínua (curva normal).</li>
+                    <li><strong>Altura humana:</strong> >700 loci identificados. Herança ~80% genética (herdabilidade alta).</li>
+                    <li><strong>Cor do grão de trigo:</strong> modelo clássico de 3 genes (Nilsson-Ehle, 1909). Proporção 1:6:15:20:15:6:1 no tri-híbrido.</li>
+                </ul>
+                <div class="bio-concept">
+                    <h4>Diferença: poligênico vs epistasia</h4>
+                    <p><strong>Poligênico:</strong> vários genes contribuem <em>aditivamente</em> para o fenótipo (efeito quantitativo, curva normal).<br>
+                    <strong>Epistasia:</strong> um gene <em>modifica/mascara</em> a expressão de outro (efeito qualitativo, proporções modificadas).</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">7. HERANÇA LIGADA AO SEXO</h2>
+
+                <h3>7.1 Determinação Sexual</h3>
+                <table class="param-table">
+                    <thead><tr><th>Sistema</th><th>♂</th><th>♀</th><th>Organismos</th></tr></thead>
+                    <tbody>
+                        <tr><td>XX/XY</td><td>XY (heterogamético)</td><td>XX (homogamética)</td><td>Mamíferos, <em>Drosophila</em>, muitas plantas</td></tr>
+                        <tr><td>ZZ/ZW</td><td>ZZ (homogamético)</td><td>ZW (heterogamética)</td><td>Aves, borboletas, alguns peixes</td></tr>
+                        <tr><td>XX/X0</td><td>X0</td><td>XX</td><td>Gafanhotos, baratas</td></tr>
+                        <tr><td>Haplodiploide</td><td>n (haploide)</td><td>2n (diploide)</td><td>Abelhas, formigas, vespas</td></tr>
+                    </tbody>
+                </table>
+                <p>Em mamíferos, o gene <strong>SRY</strong> (Sex-determining Region Y) no cromossomo Y é o "interruptor principal" → produz proteína TDF → diferenciação testicular → cascata hormonal (testosterona) → fenótipo masculino.</p>
+
+                <h3>7.2 Herança Ligada ao X</h3>
+                <p>Genes localizados no cromossomo X apresentam padrão de herança diferente entre machos (XY) e fêmeas (XX):</p>
+                <ul>
+                    <li>Machos são <strong>hemizigóticos</strong> para genes do X — basta 1 alelo recessivo para expressar</li>
+                    <li>Fêmeas precisam ser homozigotas recessivas (X<sup>a</sup>X<sup>a</sup>) para expressar</li>
+                    <li>Fêmeas heterozigotas (X<sup>A</sup>X<sup>a</sup>) são <strong>portadoras</strong> — não expressam mas transmitem</li>
+                    <li>Pai afetado (X<sup>a</sup>Y) transmite o X<sup>a</sup> para <strong>todas as filhas</strong> (portadoras) e nenhum filho</li>
+                    <li>Mãe portadora (X<sup>A</sup>X<sup>a</sup>) transmite X<sup>a</sup> para 50% dos filhos (afetados) e 50% das filhas (portadoras)</li>
+                    <li><strong>Não existe transmissão pai → filho</strong> para genes do X (pai dá Y pro filho)</li>
+                </ul>
+
+                <h3>7.3 Cruzamentos Ligados ao X — Todos os Casos</h3>
+                <table class="param-table">
+                    <thead><tr><th>Cruzamento</th><th>Filhas</th><th>Filhos</th></tr></thead>
+                    <tbody>
+                        <tr><td>X<sup>A</sup>X<sup>A</sup> × X<sup>A</sup>Y</td><td>100% X<sup>A</sup>X<sup>A</sup> (normais)</td><td>100% X<sup>A</sup>Y (normais)</td></tr>
+                        <tr><td>X<sup>A</sup>X<sup>A</sup> × X<sup>a</sup>Y</td><td>100% X<sup>A</sup>X<sup>a</sup> (portadoras)</td><td>100% X<sup>A</sup>Y (normais)</td></tr>
+                        <tr><td>X<sup>A</sup>X<sup>a</sup> × X<sup>A</sup>Y</td><td>50% normais, 50% portadoras</td><td>50% normais, 50% afetados</td></tr>
+                        <tr><td><strong>X<sup>A</sup>X<sup>a</sup> × X<sup>a</sup>Y</strong></td><td>50% portadoras, 50% afetadas</td><td>50% normais, 50% afetados</td></tr>
+                        <tr><td>X<sup>a</sup>X<sup>a</sup> × X<sup>A</sup>Y</td><td>100% portadoras</td><td>100% afetados</td></tr>
+                        <tr><td>X<sup>a</sup>X<sup>a</sup> × X<sup>a</sup>Y</td><td>100% afetadas</td><td>100% afetados</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>7.4 Doenças Ligadas ao X</h3>
+                <table class="param-table">
+                    <thead><tr><th>Doença</th><th>Gene</th><th>Locus</th><th>Frequência</th><th>Detalhes</th></tr></thead>
+                    <tbody>
+                        <tr><td>Daltonismo (vermelho-verde)</td><td><em>OPN1LW / OPN1MW</em></td><td>Xq28</td><td>~8% homens, ~0.5% mulheres</td><td>Deficiência nos cones L (protan) ou M (deutan)</td></tr>
+                        <tr><td>Hemofilia A</td><td><em>F8</em> (fator VIII)</td><td>Xq28</td><td>1/5.000 homens</td><td>Deficiência de coagulação, sangramentos</td></tr>
+                        <tr><td>Hemofilia B</td><td><em>F9</em> (fator IX)</td><td>Xq27</td><td>1/25.000 homens</td><td>"Doença de Christmas"</td></tr>
+                        <tr><td>Distrofia muscular Duchenne</td><td><em>DMD</em> (distrofina)</td><td>Xp21</td><td>1/3.500 homens</td><td>Degeneração muscular progressiva</td></tr>
+                        <tr><td>Síndrome do X-frágil</td><td><em>FMR1</em></td><td>Xq27.3</td><td>1/4.000 homens</td><td>Expansão CGG, deficiência intelectual</td></tr>
+                        <tr><td>Deficiência de G6PD</td><td><em>G6PD</em></td><td>Xq28</td><td>~400 milhões no mundo</td><td>Anemia hemolítica induzida por fármacos/favas</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>7.5 Inativação do X (Hipótese de Lyon)</h3>
+                <p>Em fêmeas de mamíferos, um dos dois cromossomos X é <strong>inativado aleatoriamente</strong> em cada célula durante o desenvolvimento embrionário precoce → <strong>corpúsculo de Barr</strong>. Consequências:</p>
+                <ul>
+                    <li>Fêmeas são <strong>mosaicos</strong> — ~50% das células expressam o X paterno, ~50% o materno</li>
+                    <li><strong>Gatos calico/tortoiseshell:</strong> gene de cor no X. X<sup>O</sup>X<sup>o</sup> → manchas laranja e pretas (quase exclusivo de fêmeas)</li>
+                    <li>Fêmeas portadoras de doenças ligadas ao X podem ter inativação desigual (desvio) → manifestação parcial</li>
+                    <li>Fórmula de corpúsculos de Barr: <strong>nº de Barr = nº de X − 1</strong> (XX = 1 Barr, XXX = 2 Barr, XY = 0)</li>
+                </ul>
+
+                <h3>7.6 Herança Ligada ao Y (Holândrica)</h3>
+                <p>Poucos genes (região não-homóloga do Y): <strong>SRY</strong> (determinação sexual), genes de fertilidade (AZF). Transmissão exclusiva pai → todos os filhos (nunca filhas). Raro em genética médica.</p>
+
+                <h3>7.7 Herança Influenciada pelo Sexo e Limitada ao Sexo</h3>
+                <table class="param-table">
+                    <thead><tr><th>Tipo</th><th>Localização do gene</th><th>Efeito</th><th>Exemplo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Influenciada pelo sexo</strong></td><td>Autossômico</td><td>Dominância muda conforme hormônios sexuais</td><td>Calvície padrão (BB = calvo em ambos, Bb = calvo só em homens, bb = não calvo)</td></tr>
+                        <tr><td><strong>Limitada ao sexo</strong></td><td>Autossômico</td><td>Só se expressa em um sexo</td><td>Produção de leite (ambos carregam genes, só fêmeas expressam)</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">8. HEREDOGRAMAS — Análise de Pedigree</h2>
+
+                <h3>8.1 Símbolos Padrão</h3>
+                <ul>
+                    <li>□ Quadrado = masculino &nbsp; ○ Círculo = feminino</li>
+                    <li>■ / ● Preenchido = afetado &nbsp; □ / ○ Vazio = normal</li>
+                    <li>◑ Meio-preenchido = portador (ligado ao X) ou heterozigoto conhecido</li>
+                    <li>Linha horizontal entre dois = casal &nbsp; Linha vertical = descendência</li>
+                    <li>Linha horizontal dupla = consanguinidade</li>
+                    <li>Seta = probando (indivíduo que levou à identificação da família)</li>
+                    <li>Números romanos (I, II, III) = gerações</li>
+                </ul>
+
+                <h3>8.2 Como Identificar o Padrão de Herança</h3>
+                <table class="param-table">
+                    <thead><tr><th>Padrão</th><th>Pistas no heredograma</th><th>Dica decisiva</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Autossômico recessivo</strong></td><td>Pula gerações, afeta igualmente ambos os sexos, pais normais com filhos afetados, mais comum em consanguinidade</td><td>Dois pais normais geram afetado → <strong>recessivo</strong></td></tr>
+                        <tr><td><strong>Autossômico dominante</strong></td><td>Não pula gerações, todo afetado tem pelo menos um pai afetado, afeta igualmente</td><td>Afetado × normal → ~50% afetados</td></tr>
+                        <tr><td><strong>Recessivo ligado ao X</strong></td><td>Muito mais homens afetados, mãe portadora → filhos afetados, pai nunca transmite pro filho</td><td>Avô materno afetado → netos por filha afetados</td></tr>
+                        <tr><td><strong>Dominante ligado ao X</strong></td><td>Pai afetado → TODAS as filhas afetadas, homens afetados mais graves, mulheres que é mais comum</td><td>Pai afetado + mãe normal → filhos normais, filhas todas afetadas</td></tr>
+                        <tr><td><strong>Ligado ao Y</strong></td><td>Só homens, pai → todos os filhos, nunca filhas</td><td>Transmissão exclusivamente patrilinear</td></tr>
+                        <tr><td><strong>Mitocondrial</strong></td><td>Mãe afetada → todos os filhos afetados; pai afetado → nenhum filho afetado</td><td>Herança estritamente materna</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="bio-concept">
+                    <h4>Algoritmo passo-a-passo</h4>
+                    <p>1. Tem pais normais com filho afetado? → <strong>Recessivo</strong>. Caso contrário → Dominante.<br>
+                    2. Afeta muito mais um sexo? → <strong>Ligado ao sexo</strong>. Senão → Autossômico.<br>
+                    3. Se lig. sexo + recessivo: homens mais afetados → <strong>Lig. ao X recessivo</strong>.<br>
+                    4. Se lig. sexo + dominante: pai afetado → todas filhas afetadas → <strong>Lig. ao X dominante</strong>.<br>
+                    5. Todos os homens de pai afetado são afetados → <strong>Lig. ao Y</strong>.<br>
+                    6. Herança exclusivamente materna → <strong>Mitocondrial</strong>.</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">9. PROBABILIDADE EM GENÉTICA</h2>
+
+                <h3>9.1 Regras Fundamentais</h3>
+                <div class="bio-concept">
+                    <h4>Regra do "E" (Multiplicação)</h4>
+                    <p>Probabilidade de dois eventos <strong>independentes</strong> ocorrerem <strong>juntos</strong> = produto das probabilidades individuais.<br>
+                    Ex: P(Aa) AND P(Bb) = P(AaBb). Se P(Aa) = 1/2 e P(Bb) = 1/2, então P(AaBb) = 1/4.<br>
+                    <strong>Usa quando:</strong> quer que AMBOS aconteçam ao mesmo tempo.</p>
+                </div>
+                <div class="bio-concept">
+                    <h4>Regra do "OU" (Adição)</h4>
+                    <p>Probabilidade de um evento OU outro (mutuamente exclusivos) = soma das probabilidades.<br>
+                    Ex: P(AA) OR P(Aa) = P(fenótipo dominante). Se P(AA) = 1/4 e P(Aa) = 2/4, então P(dominante) = 3/4.<br>
+                    <strong>Usa quando:</strong> qualquer um dos resultados serve.</p>
+                </div>
+
+                <h3>9.2 Probabilidade Condicional</h3>
+                <p>Se sabemos que um indivíduo tem fenótipo dominante (de Aa × Aa), qual a chance de ser Aa?</p>
+                <p>Entre os dominantes (AA + Aa), temos 1 AA : 2 Aa. Logo P(Aa | dominante) = <strong>2/3</strong>, P(AA | dominante) = <strong>1/3</strong>.</p>
+                <p>Isso é frequente em problemas de genética! "Sabendo que é normal, qual a chance de ser portador?"</p>
+
+                <h3>9.3 Distribuição Binomial</h3>
+                <p>Para calcular a probabilidade de uma composição específica da prole:</p>
+                <div class="equation-box">
+                    <span class="eq-formula">P(k) = C(n,k) · p<sup>k</sup> · q<sup>(n-k)</sup></span>
+                </div>
+                <p>Onde n = total de filhos, k = nº com fenótipo desejado, p = probabilidade individual, q = 1−p.</p>
+                <p><strong>Exemplo:</strong> Aa × Aa, qual a chance de 3 filhos serem TODOS dominantes? P = (3/4)³ = 27/64 ≈ 42%.</p>
+                <p><strong>Exemplo 2:</strong> Chance de em 4 filhos ter exatamente 2 afetados? C(4,2) × (1/4)² × (3/4)² = 6 × 1/16 × 9/16 = 54/256 ≈ 21%.</p>
+
+                <h3>9.4 Problemas Resolvidos</h3>
+                <div class="bio-concept">
+                    <h4>Problema 1 — Mono-híbrido</h4>
+                    <p><strong>Q:</strong> Em ervilhas, sementes amarelas (A) dominam sobre verdes (a). Cruza-se Aa × Aa. Qual a probabilidade de, em 5 sementes, pelo menos 1 ser verde?<br>
+                    <strong>R:</strong> P(verde) = 1/4. P(pelo menos 1 verde) = 1 − P(nenhuma verde) = 1 − (3/4)⁵ = 1 − 243/1024 = <strong>781/1024 ≈ 76,3%</strong></p>
+                </div>
+                <div class="bio-concept">
+                    <h4>Problema 2 — Di-híbrido + probabilidade</h4>
+                    <p><strong>Q:</strong> AaBb × AaBb. Qual a probabilidade de um filho ser aabb?<br>
+                    <strong>R:</strong> P(aa) = 1/4 e P(bb) = 1/4 → P(aabb) = 1/4 × 1/4 = <strong>1/16</strong></p>
+                </div>
+                <div class="bio-concept">
+                    <h4>Problema 3 — Ligado ao X</h4>
+                    <p><strong>Q:</strong> Mulher portadora de hemofilia (X<sup>H</sup>X<sup>h</sup>) casa com homem normal (X<sup>H</sup>Y). Qual a chance do 1º filho homem ser hemofílico?<br>
+                    <strong>R:</strong> P(menino) = 1/2 × P(hemofílico | menino) = 1/2 → P = 1/2 × 1/2 = <strong>1/4</strong>.<br>
+                    Se a pergunta for "entre os filhos homens", então é <strong>1/2</strong>.</p>
+                </div>
+                <div class="bio-concept">
+                    <h4>Problema 4 — Condicional + ABO</h4>
+                    <p><strong>Q:</strong> Casal: ele tipo A, ela tipo B. Tiveram um filho tipo O. Quais os genótipos dos pais? Qual a chance de o próximo filho ser AB?<br>
+                    <strong>R:</strong> Filho O = ii → pai deu i e mãe deu i → Pai = I<sup>A</sup>i, Mãe = I<sup>B</sup>i.<br>
+                    Cruzamento I<sup>A</sup>i × I<sup>B</sup>i: I<sup>A</sup>I<sup>B</sup> (AB), I<sup>A</sup>i (A), I<sup>B</sup>i (B), ii (O) → P(AB) = <strong>1/4 = 25%</strong></p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">10. TESTE DO QUI-QUADRADO (χ²)</h2>
+
+                <h3>10.1 Para que serve?</h3>
+                <p>Testar se os dados observados concordam com as proporções teóricas esperadas (ex: 3:1, 9:3:3:1). É um teste de <strong>aderência</strong> (goodness-of-fit).</p>
+
+                <h3>10.2 Fórmula</h3>
+                <div class="equation-box">
+                    <span class="eq-formula">χ² = Σ (O − E)² / E</span>
+                </div>
+                <p>O = observado, E = esperado, Σ = somatório para todas as classes.</p>
+
+                <h3>10.3 Graus de liberdade e interpretação</h3>
+                <p><strong>g.l. = nº de classes − 1</strong></p>
+                <table class="param-table">
+                    <thead><tr><th>g.l.</th><th>χ² crítico (p=0.05)</th><th>χ² crítico (p=0.01)</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>3,841</td><td>6,635</td></tr>
+                        <tr><td>2</td><td>5,991</td><td>9,210</td></tr>
+                        <tr><td>3</td><td>7,815</td><td>11,345</td></tr>
+                        <tr><td>4</td><td>9,488</td><td>13,277</td></tr>
+                        <tr><td>5</td><td>11,070</td><td>15,086</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Se χ² calculado &lt; χ² crítico (p=0.05):</strong> ACEITA H₀ → dados consistentes com a proporção teórica.</p>
+                <p><strong>Se χ² calculado &gt; χ² crítico (p=0.05):</strong> REJEITA H₀ → desvio significativo.</p>
+
+                <div class="bio-concept">
+                    <h4>Exemplo resolvido de χ²</h4>
+                    <p><strong>Cruzamento Aa × Aa, 100 sementes: 82 amarelas e 18 verdes. É 3:1?</strong><br>
+                    Esperado: 75 amarelas, 25 verdes.<br>
+                    χ² = (82−75)²/75 + (18−25)²/25 = 49/75 + 49/25 = 0,653 + 1,960 = <strong>2,613</strong><br>
+                    g.l. = 2−1 = 1. χ² crítico (p=0.05) = 3,841.<br>
+                    2,613 &lt; 3,841 → <strong>Aceita H₀</strong>. Os dados são compatíveis com 3:1.</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">11. LINKAGE (Ligação Gênica)</h2>
+
+                <h3>11.1 Conceito</h3>
+                <p>Genes no <strong>mesmo cromossomo</strong> não segregam independentemente (violam a 2ª Lei). Tendem a ser herdados juntos em bloco ("linkage group").</p>
+
+                <h3>11.2 Configurações</h3>
+                <table class="param-table">
+                    <thead><tr><th>Configuração</th><th>Disposição</th><th>Gametas parentais</th><th>Gametas recombinantes</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Cis (coupling)</strong></td><td>AB/ab</td><td>AB e ab (maioria)</td><td>Ab e aB (minoria)</td></tr>
+                        <tr><td><strong>Trans (repulsion)</strong></td><td>Ab/aB</td><td>Ab e aB (maioria)</td><td>AB e ab (minoria)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>11.3 Frequência de Recombinação</h3>
+                <ul>
+                    <li><strong>FR = nº recombinantes / total de descendentes</strong></li>
+                    <li><strong>FR = 0%</strong> → genes completamente ligados (sempre herdados juntos)</li>
+                    <li><strong>FR = 50%</strong> → segregação independente (como se estivessem em cromossomos diferentes)</li>
+                    <li><strong>1% de recombinação = 1 centiMorgan (cM)</strong> ≈ 1 Mb de distância física</li>
+                    <li>FR <strong>nunca excede 50%</strong> (máximo = independência)</li>
+                </ul>
+                <p>O crossing-over (recombinação homóloga) na <strong>prófase I da meiose</strong> quebra a ligação: quanto mais distantes os genes, mais provável é a troca entre eles.</p>
+
+                <div class="bio-concept tip">
+                    <h4>Mapeamento genético</h4>
+                    <p>A frequência de recombinação permite construir <strong>mapas de ligação</strong> (mapas genéticos). Se gene A–B recombina em 10% e B–C em 5%, a ordem pode ser A—B—C com distâncias 10 cM e 5 cM (ou A—C—B se A-C = 15 cM). Alfred Sturtevant (1913) foi o primeiro a fazer isso, usando <em>Drosophila</em> no lab de T.H. Morgan.</p>
+                </div>
+
+                <h3>11.4 Cruzamento-teste tri-híbrido para mapeamento</h3>
+                <p>Para mapear 3 genes ligados (A, B, C), faz-se:</p>
+                <ol>
+                    <li>Cruzar tri-heterozigoto × triplo recessivo</li>
+                    <li>Classificar 8 classes fenotípicas na prole</li>
+                    <li>As 2 classes mais frequentes = <strong>parentais</strong></li>
+                    <li>As 2 classes menos frequentes = <strong>duplo-recombinantes</strong> (crossing-over duplo)</li>
+                    <li>O gene do meio é o que muda entre parental e duplo-recombinante</li>
+                    <li>Calcular distâncias: FR(A-B), FR(B-C), FR(A-C)</li>
+                </ol>
+
+                <div class="bio-concept">
+                    <h4>Interferência e coeficiente de coincidência</h4>
+                    <p><strong>Coeficiente de coincidência (C.O.C.):</strong> = FR duplo-crossover observada / FR esperada (produto das duas distâncias parciais).<br>
+                    <strong>Interferência (I):</strong> = 1 − C.O.C. Se I &gt; 0, um crossing-over inibe outro próximo (interferência positiva). Se I = 0, sem interferência.</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">12. HERANÇA EXTRANUCLEAR</h2>
+
+                <h3>12.1 Herança Mitocondrial</h3>
+                <p>O DNA mitocondrial (mtDNA) é circular, ~16.500 pb, codifica 37 genes. Herança <strong>exclusivamente materna</strong> (mitocôndrias vêm do óvulo). Não segue leis de Mendel.</p>
+                <p><strong>Doenças mitocondriais:</strong> MELAS (Encefalomiopatia), MERRF (epilepsia mioclônica), Neuropatia óptica de Leber (LHON). Característica: afetam tecidos com alta demanda energética (músculo, cérebro, olho).</p>
+                <p><strong>Heteroplasmia:</strong> mistura de mitocôndrias normais e mutantes na mesma célula. A gravidade depende da % de mtDNA mutante (efeito limiar).</p>
+
+                <h3>12.2 Efeito Materno</h3>
+                <p>O genótipo da <strong>mãe</strong> determina o fenótipo do <strong>embrião</strong> (via mRNA/proteínas depositados no óvulo). Não é herança mitocondrial!</p>
+                <p><strong>Exemplo clássico:</strong> Enrolamento da concha de <em>Limnaea peregra</em>. Gene <em>D</em> (dextroro) domina sobre <em>d</em> (sinistroro). Mas o fenótipo do caracol depende do genótipo da mãe, não do próprio. Uma mãe Dd produz caracóis dextroros, mesmo que seus genótipos sejam dd.</p>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">13. ABERRAÇÕES CROMOSSÔMICAS</h2>
+
+                <h3>13.1 Numéricas</h3>
+                <table class="param-table">
+                    <thead><tr><th>Tipo</th><th>Cariótipo</th><th>Causa</th><th>Exemplo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Euploidia</strong> (múltiplo de n)</td><td>3n, 4n...</td><td>Falha na meiose completa</td><td>Triploidia (geralmente letal em humanos)</td></tr>
+                        <tr><td><strong>Trissomia</strong> (2n+1)</td><td>Não-disjunção</td><td>Homólogos não se separam na meiose I ou cromátides na meiose II</td><td>Down (21), Edwards (18), Patau (13)</td></tr>
+                        <tr><td><strong>Monossomia</strong> (2n-1)</td><td>Não-disjunção</td><td>Idem</td><td>Turner (45,X)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>13.2 Aneuploidias Autossômicas Principais</h3>
+                <table class="param-table">
+                    <thead><tr><th>Síndrome</th><th>Cariótipo</th><th>Incidência</th><th>Características</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Down</strong></td><td>47,XX/XY,+21</td><td>1/700</td><td>Deficiência intelectual, fáscies achatada, prega palmar, cardiopatia congênita, risco de Alzheimer precoce</td></tr>
+                        <tr><td><strong>Edwards</strong></td><td>47,XX/XY,+18</td><td>1/6.000</td><td>Grave: punhos cerrados, pés em mata-borrão, 90% morrem no 1º ano</td></tr>
+                        <tr><td><strong>Patau</strong></td><td>47,XX/XY,+13</td><td>1/10.000</td><td>Fenda labiopalatina, polidactilia, holoprosencefalia, 80% morrem no 1º mês</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>13.3 Aneuploidias Sexuais</h3>
+                <table class="param-table">
+                    <thead><tr><th>Síndrome</th><th>Cariótipo</th><th>Sexo</th><th>Incidência</th><th>Características</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Turner</strong></td><td>45,X</td><td>♀</td><td>1/2.500</td><td>Baixa estatura, pescoço alado, gônadas em fita, infertilidade</td></tr>
+                        <tr><td><strong>Klinefelter</strong></td><td>47,XXY</td><td>♂</td><td>1/600</td><td>Estatura alta, ginecomastia, infertilidade, aprend. lento</td></tr>
+                        <tr><td><strong>Triplo X</strong></td><td>47,XXX</td><td>♀</td><td>1/1.000</td><td>Geralmente normal, pode ter dificuldade de aprendizagem</td></tr>
+                        <tr><td><strong>Duplo Y</strong></td><td>47,XYY</td><td>♂</td><td>1/1.000</td><td>Estatura alta, geralmente normal</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>13.4 Aberrações Estruturais</h3>
+                <table class="param-table">
+                    <thead><tr><th>Tipo</th><th>O que acontece</th><th>Consequência</th><th>Exemplo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Deleção</strong></td><td>Perda de segmento</td><td>Perda de genes → haploinsuficiência</td><td>Cri-du-chat (del 5p)</td></tr>
+                        <tr><td><strong>Duplicação</strong></td><td>Segmento duplicado</td><td>Excesso de expressão gênica</td><td>Doença de Charcot-Marie-Tooth (dup 17p)</td></tr>
+                        <tr><td><strong>Inversão</strong></td><td>Segmento invertido 180°</td><td>Se quebra genes → perda de função; se entre genes → pode ser silenciosa</td><td>Hemofilia A por inversão do intron 22</td></tr>
+                        <tr><td><strong>Translocação</strong></td><td>Troca entre cromossomos não-homólogos</td><td>Portadores balanceados são normais; desbalanceada → síndrome</td><td>Down por translocação Robertsoniana t(14;21)</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">14. GENÉTICA HUMANA — DOENÇAS MENDELIANAS</h2>
+
+                <h3>14.1 Autossômicas Recessivas</h3>
+                <table class="param-table">
+                    <thead><tr><th>Doença</th><th>Gene</th><th>Cromossomo</th><th>Frequência</th><th>Detalhes</th></tr></thead>
+                    <tbody>
+                        <tr><td>Fibrose cística</td><td>CFTR</td><td>7q31</td><td>1/2.500 (europeus)</td><td>Muco espesso, infecções pulmonares. Portadores ~1/25.</td></tr>
+                        <tr><td>Anemia falciforme</td><td>HBB</td><td>11p15</td><td>1/500 (afrodescendentes)</td><td>Hemácias em foice. Heterozigotos resistentes à malária.</td></tr>
+                        <tr><td>Fenilcetonúria (PKU)</td><td>PAH</td><td>12q23</td><td>1/10.000</td><td>Acúmulo de Phe → retardo mental se não tratado. Teste do pezinho.</td></tr>
+                        <tr><td>Albinismo OCA1</td><td>TYR</td><td>11q14</td><td>1/17.000</td><td>Ausência de melanina. Tirosinase não funcional.</td></tr>
+                        <tr><td>Talassemia β</td><td>HBB</td><td>11p15</td><td>Comum no Mediterrâneo</td><td>Anemia microcítica. β-talassemia major = depende de transfusão.</td></tr>
+                        <tr><td>Doença de Tay-Sachs</td><td>HEXA</td><td>15q23</td><td>1/3.600 (Ashkenazi)</td><td>Acúmulo de gangliosídeo GM2. Neurológica, fatal ~4 anos.</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>14.2 Autossômicas Dominantes</h3>
+                <table class="param-table">
+                    <thead><tr><th>Doença</th><th>Gene</th><th>Cromossomo</th><th>Frequência</th><th>Detalhes</th></tr></thead>
+                    <tbody>
+                        <tr><td>Doença de Huntington</td><td>HTT</td><td>4p16</td><td>1/10.000</td><td>Expansão CAG. Início tardio (35-50 anos). Antecipação.</td></tr>
+                        <tr><td>Acondroplasia</td><td>FGFR3</td><td>4p16</td><td>1/25.000</td><td>Nanismo desproporcional. 80% = mutação de novo.</td></tr>
+                        <tr><td>Neurofibromatose I</td><td>NF1</td><td>17q11</td><td>1/3.000</td><td>Manchas café-com-leite, neurofibromas. Expressividade variável.</td></tr>
+                        <tr><td>Síndrome de Marfan</td><td>FBN1</td><td>15q21</td><td>1/5.000</td><td>Tecido conjuntivo. Aracnodactilia, aneurisma aorta.</td></tr>
+                        <tr><td>Polidactilia</td><td>Vários</td><td>Vários</td><td>1/500-1/1000</td><td>Dedos extras. Penetrância variável.</td></tr>
+                        <tr><td>Hipercolesterolemia familiar</td><td>LDLR</td><td>19p13</td><td>1/250</td><td>LDL elevado desde nascimento. Homozigoto = IAM na infância.</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">15. GLOSSÁRIO COMPLETO</h2>
+
+                <table class="param-table">
+                    <thead><tr><th>Termo</th><th>Definição</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Alelo</strong></td><td>Forma alternativa de um gene no mesmo locus</td></tr>
+                        <tr><td><strong>Autossômico</strong></td><td>Gene localizado em cromossomo não-sexual (autossomo)</td></tr>
+                        <tr><td><strong>Backcross</strong></td><td>Cruzamento de F1 com um dos parentais</td></tr>
+                        <tr><td><strong>Cariótipo</strong></td><td>Conjunto completo de cromossomos de um indivíduo, organizados</td></tr>
+                        <tr><td><strong>Codominância</strong></td><td>Ambos alelos se expressam igualmente no heterozigoto</td></tr>
+                        <tr><td><strong>Crossing-over</strong></td><td>Troca de segmentos entre cromátides não-irmãs na prófase I</td></tr>
+                        <tr><td><strong>Diploide (2n)</strong></td><td>Célula com dois conjuntos completos de cromossomos</td></tr>
+                        <tr><td><strong>Dominância</strong></td><td>Capacidade de um alelo mascarar o outro no heterozigoto</td></tr>
+                        <tr><td><strong>Epistasia</strong></td><td>Interação onde um gene mascara a expressão de outro (locus diferente)</td></tr>
+                        <tr><td><strong>Expressividade</strong></td><td>Grau de manifestação fenotípica de um genótipo</td></tr>
+                        <tr><td><strong>Fenótipo</strong></td><td>Característica observável (genótipo + ambiente)</td></tr>
+                        <tr><td><strong>Gameta</strong></td><td>Célula reprodutiva haploide (n)</td></tr>
+                        <tr><td><strong>Genótipo</strong></td><td>Constituição alélica de um indivíduo</td></tr>
+                        <tr><td><strong>Haploide (n)</strong></td><td>Célula com um conjunto de cromossomos</td></tr>
+                        <tr><td><strong>Hemizigoto</strong></td><td>Ter apenas um alelo de um gene (ex: genes do X em machos XY)</td></tr>
+                        <tr><td><strong>Heredograma</strong></td><td>Diagrama de herança em uma família (pedigree)</td></tr>
+                        <tr><td><strong>Heterozigoto</strong></td><td>Indivíduo com dois alelos diferentes (Aa)</td></tr>
+                        <tr><td><strong>Homozigoto</strong></td><td>Indivíduo com dois alelos iguais (AA ou aa)</td></tr>
+                        <tr><td><strong>Linhagem pura</strong></td><td>Homozigoto que produz descendentes idênticos por autofecundação</td></tr>
+                        <tr><td><strong>Linkage</strong></td><td>Genes no mesmo cromossomo que tendem a ser herdados juntos</td></tr>
+                        <tr><td><strong>Locus</strong></td><td>Posição específica de um gene no cromossomo</td></tr>
+                        <tr><td><strong>Penetrância</strong></td><td>% de indivíduos com dado genótipo que expressam o fenótipo esperado</td></tr>
+                        <tr><td><strong>Pleiotropia</strong></td><td>Um gene afetando múltiplos fenótipos</td></tr>
+                        <tr><td><strong>Probando</strong></td><td>Primeiro indivíduo afetado identificado em uma família</td></tr>
+                        <tr><td><strong>Recessivo</strong></td><td>Alelo que só se manifesta em homozigose</td></tr>
+                        <tr><td><strong>Testcross</strong></td><td>Cruzamento com homozigoto recessivo para determinar genótipo</td></tr>
+                        <tr><td><strong>Wild-type</strong></td><td>Fenótipo/alelo mais comum na população natural</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <h2 style="margin-top:20px;border-bottom:2px solid #2e7d32;padding-bottom:4px">16. RESUMO RÁPIDO — PROPORÇÕES PARA PROVA</h2>
+
+                <table class="param-table">
+                    <thead><tr><th>Cruzamento</th><th>Proporção genotípica</th><th>Proporção fenotípica</th></tr></thead>
+                    <tbody>
+                        <tr><td>Aa × Aa (mono, dom. completa)</td><td>1 AA : 2 Aa : 1 aa</td><td><strong>3:1</strong></td></tr>
+                        <tr><td>Aa × aa (testcross)</td><td>1 Aa : 1 aa</td><td><strong>1:1</strong></td></tr>
+                        <tr><td>AA × Aa</td><td>1 AA : 1 Aa</td><td><strong>100% dominante</strong></td></tr>
+                        <tr><td>Aa × Aa (dom. incompleta)</td><td>1:2:1</td><td><strong>1:2:1</strong></td></tr>
+                        <tr><td>AaBb × AaBb (di-híbrido)</td><td>9 genótipos</td><td><strong>9:3:3:1</strong></td></tr>
+                        <tr><td>AaBb × aabb (di testcross)</td><td>4 classes</td><td><strong>1:1:1:1</strong></td></tr>
+                        <tr><td>Epistasia recessiva</td><td>—</td><td><strong>9:3:4</strong></td></tr>
+                        <tr><td>Epistasia dominante</td><td>—</td><td><strong>12:3:1</strong></td></tr>
+                        <tr><td>Duplicata dominante</td><td>—</td><td><strong>15:1</strong></td></tr>
+                        <tr><td>Duplicata recessiva (complementar)</td><td>—</td><td><strong>9:7</strong></td></tr>
+                        <tr><td>Genes duplicados cumulativos</td><td>—</td><td><strong>9:6:1</strong></td></tr>
+                        <tr><td>Gene letal (A<sup>Y</sup>A × A<sup>Y</sup>A)</td><td>2:1 (vivos)</td><td><strong>2:1</strong></td></tr>
+                        <tr><td>X<sup>A</sup>X<sup>a</sup> × X<sup>A</sup>Y (lig. X)</td><td>—</td><td><strong>3 normais : 1 afetado (só ♂ afetado)</strong></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="bio-concept tip">
+                    <h4>Dica final para provas</h4>
+                    <p><strong>1:</strong> Leia o problema inteiro antes de montar o cruzamento.<br>
+                    <strong>2:</strong> Identifique quantos genes estão envolvidos (proporções que somam 4 = 1 gene, somam 16 = 2 genes).<br>
+                    <strong>3:</strong> Determine a relação de dominância (examine F1).<br>
+                    <strong>4:</strong> Monte o genótipo dos pais a partir dos fenótipos + informações da prole.<br>
+                    <strong>5:</strong> Use regra do "E" para eventos simultâneos e "OU" para alternativos.<br>
+                    <strong>6:</strong> Probabilidade condicional: "se é dominante, chance de ser Aa = 2/3".<br>
+                    <strong>7:</strong> Em heredogramas, primeiro exclua padrões impossíveis, depois confirme o consistente.</p>
+                </div>
+
+            </div>
+
+            <div class="sub-content" id="gen-sim">
+                <div class="sim-layout" style="grid-template-columns: 260px 1fr">
+                    <div class="controls-panel">
+                        <h3>Tipo de cruzamento</h3>
+                        <select id="gen-tipo">
+                            <option value="mono-completa">Mono-híbrido (dom. completa)</option>
+                            <option value="mono-incompleta">Mono-híbrido (dom. incompleta)</option>
+                            <option value="mono-codominancia">Mono-híbrido (codominância)</option>
+                            <option value="testcross">Cruzamento-teste</option>
+                            <option value="di-hibrido">Di-híbrido</option>
+                            <option value="di-testcross">Di testcross</option>
+                            <option value="epistasia-recessiva">Epistasia recessiva (9:3:4)</option>
+                            <option value="epistasia-dominante">Epistasia dominante (12:3:1)</option>
+                            <option value="epistasia-dupla">Epistasia duplicata recessiva (9:7)</option>
+                            <option value="ligado-x">Herança ligada ao X</option>
+                        </select>
+                        <h3>Progenitores</h3>
+                        <div class="control-group">
+                            <label>Genótipo P1:</label>
+                            <select id="gen-p1"></select>
+                        </div>
+                        <div class="control-group">
+                            <label>Genótipo P2:</label>
+                            <select id="gen-p2"></select>
+                        </div>
+                        <hr>
+                        <h3>Simulação estocástica</h3>
+                        <div class="control-group">
+                            <label>Nº de filhos: <span id="gen-n-val">100</span></label>
+                            <input type="range" id="gen-n" min="10" max="1000" step="10" value="100">
+                            <div class="param-hint">Mais filhos → proporção mais perto do teórico</div>
+                        </div>
+                        <button class="btn-run" id="gen-run">Cruzar</button>
+                        <button class="btn-reset" id="gen-reset">Limpar</button>
+                        <div class="stats-box" id="gen-stats"></div>
+                    </div>
+                    <div class="charts-panel">
+                        <div id="gen-punnett" style="overflow-x:auto; margin-bottom:8px"></div>
+                        <div class="chart-container"><canvas id="gen-chart-geno"></canvas></div>
+                        <div class="chart-container"><canvas id="gen-chart-feno"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Lotka-Volterra -->
-        <section id="lotka-volterra" class="tab-content active">
+        <section id="lotka-volterra" class="tab-content">
             <div class="sub-tabs">
                 <button class="sub-tab active" data-subtab="lv-teoria">Teoria</button>
                 <button class="sub-tab" data-subtab="lv-sim">Simulação</button>
@@ -451,6 +1280,8 @@
         <p>BioSim v1.1</p>
     </footer>
 
+    <script src="js/genetics.js"></script>
+    <script src="js/genetica.js"></script>
     <script src="js/lotka-volterra.js"></script>
     <script src="js/epidemiological.js"></script>
     <script src="js/metabolic.js"></script>

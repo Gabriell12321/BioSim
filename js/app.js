@@ -109,6 +109,7 @@
 
     // init modules
     function initAll() {
+        if (typeof Genetica !== 'undefined') Genetica.init();
         if (typeof LotkaVolterra !== 'undefined') LotkaVolterra.init();
         if (typeof Epidemiological !== 'undefined') Epidemiological.init();
         if (typeof Metabolic !== 'undefined') Metabolic.init();
